@@ -1,0 +1,54 @@
+services:
+  ## POSTGRESQL DB DATABASE
+  lmima-food-db:
+    container_name: lmima-food-db
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '3308:${DB_PORT}'
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      lmima-food-network:
+        ipv4_address: 10.5.0.5 # Assign a specific IP address
+
+  ## PROJECT BACKEND
+  lmima-food-backend:
+    container_name: lmima-food-backend
+    stdin_open: true
+    tty: true
+    command: sh -c "yarn start & yarn run studio"
+    restart: always
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '${HTTP_PORT}:${HTTP_PORT}' # Port for Express.js server
+      - '${STUDIO_PORT}:${STUDIO_PORT}' # Port for Prisma Studio
+    depends_on:
+      - lmima-food-db
+    env_file:
+      - .env
+    volumes:
+      - ./backend-data:/backend/data
+    networks:
+      lmima-food-network:
+        ipv4_address: 10.5.0.6 # Assign a specific IP address
+
+volumes:
+  mysql-data:
+  backend-data:
+  frontend-data:
+
+networks:
+  lmima-food-network:
+    name: lmima-food-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1

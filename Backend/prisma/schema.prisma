@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  name      String
+  address   String
+  phone     String
+  Cart      Cart?
+  Wishlist  Wishlist?
+  orders    Order[]
+  Review    Review[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Seller {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  address   String
+  phone     String
+  menu      Menu?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Menu {
+  id        String   @id @default(uuid())
+  sellerId  String   @unique
+  dishes    Dish[]
+  seller    Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Dish {
+  id           String         @id @default(uuid())
+  menuId       String
+  name         String
+  description  String
+  price        Float
+  imageUrl     String
+  Order        Order[] // many-to-many relationship
+  CartItem     CartItem[] // many-to-many relationship
+  WishlistItem WishlistItem[] // many-to-many relationship
+  Review       Review[]
+  menu         Menu           @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model Order {
+  id            String        @id @default(uuid())
+  userId        String
+  dishId        String
+  quantity      Int
+  total         Float
+  paymentMethod PaymentMethod
+  status        OrderStatus   @default(PENDING)
+  delivery      Delivery?
+  dishes        Dish[] // many-to-many relationship
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Delivery {
+  id        String         @id @default(uuid())
+  orderId   String         @unique
+  address   String
+  status    DeliveryStatus @default(PENDING)
+  order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  userId    String     @unique
+  items     CartItem[] // many-to-many relationship
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  cartId    String
+  dishId    String
+  quantity  Int
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  dish      Dish     @relation(fields: [dishId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Wishlist {
+  id        String         @id @default(uuid())
+  userId    String         @unique
+  items     WishlistItem[] // many-to-many relationship
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model WishlistItem {
+  id         String   @id @default(uuid())
+  wishlistId String
+  dishId     String
+  wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+  dish       Dish     @relation(fields: [dishId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  userId    String
+  dishId    String
+  rating    Int // Rating from 1 to 5 stars
+  comment   String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dish      Dish     @relation(fields: [dishId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  DELIVERED
+  CANCELLED
+}
+
+enum DeliveryStatus {
+  PENDING
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  PREPAID
+  PAY_ON_DELIVERY
+}
