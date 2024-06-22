@@ -8,30 +8,32 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  password  String
-  name      String
-  address   String
-  phone     String
-  Cart      Cart?
-  Wishlist  Wishlist?
-  orders    Order[]
-  Review    Review[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id             String    @id @default(uuid())
+  email          String    @unique @db.VarChar(100)
+  phone          String    @unique @db.VarChar(20)
+  hashedPassword String    @db.VarChar(100)
+  firstName      String    @db.VarChar(40)
+  lastName       String    @db.VarChar(40)
+  address        String    @db.VarChar(100)
+  cart           Cart?
+  wishlist       Wishlist?
+  orders         Order[]
+  Review         Review[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }
 
 model Seller {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name      String
-  address   String
-  phone     String
-  menu      Menu?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(uuid())
+  email          String   @unique @db.VarChar(100)
+  phone          String   @unique @db.VarChar(20)
+  hashedPassword String   @db.VarChar(100)
+  firstName      String   @db.VarChar(40)
+  lastName       String   @db.VarChar(40)
+  address        String   @db.VarChar(100)
+  menu           Menu?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Menu {
@@ -46,14 +48,14 @@ model Menu {
 model Dish {
   id           String         @id @default(uuid())
   menuId       String
-  name         String
+  name         String         @db.VarChar(100)
   description  String
   price        Float
   imageUrl     String
-  Order        Order[] // many-to-many relationship
   CartItem     CartItem[] // many-to-many relationship
   WishlistItem WishlistItem[] // many-to-many relationship
   Review       Review[]
+  Order        Order[]
   menu         Menu           @relation(fields: [menuId], references: [id], onDelete: Cascade)
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
@@ -66,10 +68,10 @@ model Order {
   quantity      Int
   total         Float
   paymentMethod PaymentMethod
-  status        OrderStatus   @default(PENDING)
+  status        OrderStatus   @default(Pending)
   delivery      Delivery?
-  dishes        Dish[] // many-to-many relationship
   user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dish          Dish          @relation(fields: [dishId], references: [id], onDelete: Cascade)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
@@ -78,7 +80,7 @@ model Delivery {
   id        String         @id @default(uuid())
   orderId   String         @unique
   address   String
-  status    DeliveryStatus @default(PENDING)
+  status    DeliveryStatus @default(Pending)
   order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
@@ -136,20 +138,20 @@ model Review {
 }
 
 enum OrderStatus {
-  PENDING
-  PREPARING
-  DELIVERED
-  CANCELLED
+  Pending
+  Preparing
+  Delivered
+  Cancelled
 }
 
 enum DeliveryStatus {
-  PENDING
-  IN_TRANSIT
-  DELIVERED
-  CANCELLED
+  Pending
+  InTransit
+  Delivered
+  Cancelled
 }
 
 enum PaymentMethod {
-  PREPAID
-  PAY_ON_DELIVERY
+  Prepaid
+  PayOnDelivery
 }

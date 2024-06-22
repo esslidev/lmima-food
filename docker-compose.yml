@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - '3308:${DB_PORT}'
+      - '5432:${DB_PORT}'
     volumes:
       - ./mysql-data:/var/lib/mysql
     networks:

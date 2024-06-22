@@ -16,7 +16,7 @@ console.log(process.env.HTTP_PORT)
 
 // remember to strict the cors in production
 const corOptions = {
-  origin: ['http://esslidev.dev', 'http://localhost:3000', 'http://localhost:3100','*'],
+  origin: ['http://btspfe.dev', 'http://localhost:3000', 'http://localhost:3100','*'],
 }
 
 // this part is for initiating the socket.io

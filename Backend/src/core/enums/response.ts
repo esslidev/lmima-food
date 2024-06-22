@@ -20,6 +20,7 @@ export enum ErrorTitle {
   NOT_FOUND = 'Resource Not Found',
   FORBIDDEN = 'Access Forbidden',
   USER_ALREADY_EXISTS = 'User Already Exists',
+  SELLER_ALREADY_EXISTS = 'Seller Already Exists',
   INVALID_EMAIL = 'Invalid Email',
   INVALID_PASSWORD = 'Invalid Password',
   // Add more error types as needed
@@ -34,7 +35,8 @@ export enum ErrorMessage {
   INVALID_SIGNIN_DATA = 'Invalid sign-in data. Please provide valid information for sign-in.',
   NOT_FOUND = 'The requested resource could not be found on the server.',
   FORBIDDEN = 'You do not have the necessary permissions to access this resource.',
-  USER_ALREADY_EXISTS = 'User with this email or third-party ID already exists.',
+  USER_ALREADY_EXISTS = 'User with these credentials already exists.',
+  SELLER_ALREADY_EXISTS = 'Seller with these credentials already exists.',
   INVALID_EMAIL = 'Invalid email provided. Please provide a valid email address.',
   INVALID_PASSWORD = 'Invalid password provided. Password must be at least 8 characters long and contain both letters and numbers.',
   INTERNAL_SERVER_ERROR = 'An unexpected error occurred on the server. Please try again later or contact support for assistance.',
