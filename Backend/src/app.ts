@@ -7,6 +7,8 @@ import authRoutes from './routes/authRoutes'
 import { configDotenv } from 'dotenv'
 import userRoutes from './routes/userRoutes'
 import sellerRoutes from './routes/sellerRoutes'
+import menuRoutes from './routes/menuRoutes'
+import dishRoutes from './routes/dishRoutes'
 
 configDotenv({ path: __dirname + '../../../.env' })
 
@@ -34,6 +36,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/auth', integrationAuthMiddleware, authRoutes)
 app.use('/api/users', authMiddleware, userRoutes)
 app.use('/api/sellers', authMiddleware, sellerRoutes)
+app.use('/api/menus', authMiddleware, menuRoutes)
+app.use('/api/dishes', authMiddleware, dishRoutes)
 
 app.get('/', async (req, res, next) => {
   res.send({ message: '🚀 API ready to serve! 🚀' })

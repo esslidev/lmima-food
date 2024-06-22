@@ -53,7 +53,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     req.body = {
       ...req.body,
       userId: decodedResult.userId,
-      userRole: decodedResult.userRole,
+      sellerId: decodedResult.sellerId,
     }
     next()
 

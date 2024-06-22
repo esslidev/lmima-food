@@ -21,9 +21,11 @@ export enum ErrorTitle {
   FORBIDDEN = 'Access Forbidden',
   USER_ALREADY_EXISTS = 'User Already Exists',
   SELLER_ALREADY_EXISTS = 'Seller Already Exists',
+  INVALID_INPUT = 'Invalid Input',
   INVALID_EMAIL = 'Invalid Email',
   INVALID_PASSWORD = 'Invalid Password',
   // Add more error types as needed
+  MEAL_ALREADY_EXISTS = 'Meal Already Exists',
 }
 
 export enum ErrorMessage {
@@ -37,8 +39,10 @@ export enum ErrorMessage {
   FORBIDDEN = 'You do not have the necessary permissions to access this resource.',
   USER_ALREADY_EXISTS = 'User with these credentials already exists.',
   SELLER_ALREADY_EXISTS = 'Seller with these credentials already exists.',
+  INVALID_INPUT = 'The input provided is invalid. Please check the data and try again.',
   INVALID_EMAIL = 'Invalid email provided. Please provide a valid email address.',
   INVALID_PASSWORD = 'Invalid password provided. Password must be at least 8 characters long and contain both letters and numbers.',
   INTERNAL_SERVER_ERROR = 'An unexpected error occurred on the server. Please try again later or contact support for assistance.',
   // Add more error types as needed
+  MEAL_ALREADY_EXISTS = 'Meal already exists try to update rather than adding it.',
 }

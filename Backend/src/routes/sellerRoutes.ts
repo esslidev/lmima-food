@@ -11,5 +11,5 @@ sellerRouter.put('/updateSeller', sellerController.updateSeller)
 sellerRouter.delete('/deleteSeller', sellerController.deleteSeller)
 
 sellerRouter.get('/getSellerMenu', sellerController.getSellerMenu)
-
+sellerRouter.get('/getOrdersToPrepare', sellerController.getOrdersToPrepare)
 export default sellerRouter

@@ -184,10 +184,72 @@ const getSellerMenu = async (req: Request, res: Response) => {
   }
 };
 
+const getOrdersToPrepare = async (req: Request, res: Response) => {
+  const { sellerId } = req.body;
+
+  try {
+    if (!sellerId) {
+      throw new HttpError(HttpStatusCode.BAD_REQUEST, ErrorTitle.NOT_FOUND, ErrorMessage.NOT_FOUND);
+    }
+
+    const seller = await prisma.seller.findUnique({
+      where: { id: sellerId },
+      include: { menu: true },
+    });
+
+    if (!seller || !seller.menu) {
+      throw new HttpError(HttpStatusCode.NOT_FOUND, ErrorTitle.NOT_FOUND, ErrorMessage.NOT_FOUND);
+    }
+
+    const ordersToPrepare = await prisma.order.findMany({
+      where: {
+        dish: {
+          menuId: seller.menu.id,
+        },
+      },
+      include: {
+        user: true,
+        dish: true,
+        delivery: true,
+      },
+    });
+
+    const responseOrders = ordersToPrepare.map(order => ({
+      orderId: order.id,
+      user: {
+        id: order.user.id,
+        firstName: order.user.firstName,
+        lastName: order.user.lastName,
+        email: order.user.email,
+        phone: order.user.phone,
+      },
+      dish: {
+        id: order.dish.id,
+      },
+      quantity: order.quantity,
+      total: order.total,
+      paymentMethod: order.paymentMethod,
+      orderStatus: order.status,
+      delivery: {
+        id: order.delivery?.id,
+        address: order.delivery?.address,
+        status: order.delivery?.status,
+      },
+      createdAt: order.createdAt,
+      updatedAt: order.updatedAt,
+    }));
+
+    new CustomResponse(res).send({ data: responseOrders });
+  } catch (error) {
+    handleError(error, res);
+  }
+};
+
 export {
   getSellerById,
   getSellers,
   updateSeller,
   deleteSeller,
   getSellerMenu,
+  getOrdersToPrepare,
 };
