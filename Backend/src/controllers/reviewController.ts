@@ -16,7 +16,7 @@ const createReview = async (req: Request, res: Response) => {
       throw new HttpError(HttpStatusCode.BAD_REQUEST, ErrorTitle.INVALID_INPUT, ErrorMessage.INVALID_INPUT);
     }
 
-    const review = await prisma.review.create({
+    const newReview = await prisma.review.create({
       data: {
         userId,
         dishId,
@@ -25,37 +25,61 @@ const createReview = async (req: Request, res: Response) => {
       },
     });
 
-    new CustomResponse(res).send(review);
+    const responseNewReview = {
+        id: newReview.id,
+        userId: newReview.userId,
+        dishId: newReview.dishId,
+        rating: newReview.rating,
+        comment: newReview.comment,
+      }
+
+    new CustomResponse(res).send(responseNewReview);
   } catch (error) {
     handleError(error, res);
   }
 };
 
-// Retrieve a review by its ID
+// Retrieve a review by its ID or by dish ID or both
 const getReviewById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+    const { id } = req.body;
+  
+    try {
+        if (!id) {
+            throw new HttpError(HttpStatusCode.BAD_REQUEST, ErrorTitle.NOT_FOUND, ErrorMessage.NOT_FOUND);
+          }
 
-  try {
-    const review = await prisma.review.findUnique({
-      where: { id },
-    });
-
-    if (!review) {
-      throw new HttpError(HttpStatusCode.NOT_FOUND, ErrorTitle.NOT_FOUND, ErrorMessage.NOT_FOUND);
+          const review = await prisma.review.findUnique({
+            where: { id },
+          });
+      
+          if (!review) {
+            throw new HttpError(HttpStatusCode.NOT_FOUND, ErrorTitle.NOT_FOUND, ErrorMessage.NOT_FOUND);
+          }
+      
+          const responseReview = {
+            id: review.id,
+            userId: review.userId,
+            dishId: review.dishId,
+            rating: review.rating,
+            comment: review.comment,
+          }
+    
+  
+      new CustomResponse(res).send(responseReview);
+    } catch (error) {
+      handleError(error, res);
     }
-
-    new CustomResponse(res).send(review);
-  } catch (error) {
-    handleError(error, res);
-  }
-};
-
+  };
+  
 // Update review details
 const updateReview = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { rating, comment } = req.body;
+  const { id ,rating, comment } = req.body;
 
   try {
+    if (!id || !rating) {
+        throw new HttpError(HttpStatusCode.BAD_REQUEST, ErrorTitle.INVALID_INPUT, ErrorMessage.INVALID_INPUT);
+      }
+
     const updatedReview = await prisma.review.update({
       where: { id },
       data: {
@@ -64,7 +88,15 @@ const updateReview = async (req: Request, res: Response) => {
       },
     });
 
-    new CustomResponse(res).send(updatedReview);
+    const responseUpdatedReview = {
+        id: updatedReview.id,
+        userId: updatedReview.userId,
+        dishId: updatedReview.dishId,
+        rating: updatedReview.rating,
+        comment: updatedReview.comment,
+      }
+
+    new CustomResponse(res).send(responseUpdatedReview);
   } catch (error) {
     handleError(error, res);
   }
@@ -72,14 +104,18 @@ const updateReview = async (req: Request, res: Response) => {
 
 // Delete a review
 const deleteReview = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id } = req.body;
 
   try {
-    const deletedReview = await prisma.review.delete({
+    if (!id) {
+        throw new HttpError(HttpStatusCode.BAD_REQUEST, ErrorTitle.NOT_FOUND, ErrorMessage.NOT_FOUND);
+      }
+
+ await prisma.review.delete({
       where: { id },
     });
 
-    new CustomResponse(res).send(deletedReview);
+    new CustomResponse(res).send({ message: 'Review deleted successfully.' });
   } catch (error) {
     handleError(error, res);
   }
@@ -88,9 +124,9 @@ const deleteReview = async (req: Request, res: Response) => {
 // Retrieve all reviews for a specific dish or user or both
 const getReviews = async (req: Request, res: Response) => {
   const { dishId, userId } = req.body;
-  let reviews: Review[];
 
   try {
+    let reviews: Review[] = [];
     if (dishId && userId) {
       reviews = await prisma.review.findMany({
         where: {
@@ -114,7 +150,16 @@ const getReviews = async (req: Request, res: Response) => {
       reviews = await prisma.review.findMany();
     }
 
-    new CustomResponse(res).send(reviews);
+    const responseReviews = reviews.map((review) => ({
+        id: review.id,
+        userId: review.userId,
+        dishId: review.dishId,
+        rating: review.rating,
+        comment: review.comment,
+      }));
+  
+
+    new CustomResponse(res).send(responseReviews);
   } catch (error) {
     handleError(error, res);
   }
