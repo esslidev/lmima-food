@@ -1,4 +1,4 @@
-# Ali's Authenticated Backend
+# L'mima Food Backend
 
 Welcome to Ali's Authenticated Backend repository! This backend system, built with Node.js, Express.js, and Prisma, features a robust authentication system to secure your applications.
 
