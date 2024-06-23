@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Delivery, PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 import { HttpStatusCode, ErrorTitle, ErrorMessage } from '../core/enums/response';
 import { HttpError } from '../core/response/httpError';
@@ -23,37 +23,57 @@ const createDelivery = async (req: Request, res: Response) => {
       },
     });
 
-    new CustomResponse(res).send({ data: newDelivery });
+    const responseDelivery = {
+      id: newDelivery.id,
+      orderId: newDelivery.orderId,
+      address: newDelivery.address,
+      status: newDelivery.status,
+    };
+
+    new CustomResponse(res).send({ data: responseDelivery });
   } catch (error) {
     handleError(error, res);
   }
 };
 
-const getDeliveryById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+const getDelivery = async (req: Request, res: Response) => {
+  const { id, orderId } = req.body;
 
   try {
-    if (!id) {
-      throw new HttpError(HttpStatusCode.BAD_REQUEST, ErrorTitle.NOT_FOUND, ErrorMessage.NOT_FOUND);
+    if (!id && !orderId) {
+      throw new HttpError(HttpStatusCode.BAD_REQUEST, ErrorTitle.INVALID_INPUT, ErrorMessage.INVALID_INPUT);
     }
 
-    const delivery = await prisma.delivery.findUnique({
-      where: { id },
-    });
+    let delivery: Delivery | null = null;
+    if (id) {
+      delivery = await prisma.delivery.findUnique({
+        where: { id },
+      });
+    } else if (orderId) {
+      delivery = await prisma.delivery.findFirst({
+        where: { orderId },
+      });
+    }
 
     if (!delivery) {
       throw new HttpError(HttpStatusCode.NOT_FOUND, ErrorTitle.NOT_FOUND, ErrorMessage.NOT_FOUND);
     }
 
-    new CustomResponse(res).send({ data: delivery });
+    const responseDelivery = {
+      id: delivery.id,
+      orderId: delivery.orderId,
+      address: delivery.address,
+      status: delivery.status,
+    };
+
+    new CustomResponse(res).send({ data: responseDelivery });
   } catch (error) {
     handleError(error, res);
   }
 };
 
 const updateDeliveryStatus = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { status } = req.body;
+  const { id, status } = req.body;
 
   try {
     if (!id || !status) {
@@ -65,18 +85,25 @@ const updateDeliveryStatus = async (req: Request, res: Response) => {
       data: { status },
     });
 
-    new CustomResponse(res).send({ data: updatedDelivery });
+    const responseUpdatedDelivery = {
+      id: updatedDelivery.id,
+      orderId: updatedDelivery.orderId,
+      address: updatedDelivery.address,
+      status: updatedDelivery.status,
+    };
+
+    new CustomResponse(res).send({ data: responseUpdatedDelivery });
   } catch (error) {
     handleError(error, res);
   }
 };
 
 const deleteDelivery = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id } = req.body;
 
   try {
     if (!id) {
-      throw new HttpError(HttpStatusCode.BAD_REQUEST, ErrorTitle.NOT_FOUND, ErrorMessage.NOT_FOUND);
+      throw new HttpError(HttpStatusCode.BAD_REQUEST, ErrorTitle.INVALID_INPUT, ErrorMessage.INVALID_INPUT);
     }
 
     await prisma.delivery.delete({
@@ -89,32 +116,50 @@ const deleteDelivery = async (req: Request, res: Response) => {
   }
 };
 
-const getDeliveryByOrder = async (req: Request, res: Response) => {
-  const { orderId } = req.params;
+const getDeliveries = async (req: Request, res: Response) => {
+  const { id, orderId, status, address } = req.query;
 
   try {
-    if (!orderId) {
-      throw new HttpError(HttpStatusCode.BAD_REQUEST, ErrorTitle.INVALID_INPUT, ErrorMessage.INVALID_INPUT);
+    const filters: any = {};
+
+    if (id) {
+      filters.id = Number(id);
     }
 
-    const delivery = await prisma.delivery.findUnique({
-      where: { orderId },
+    if (orderId) {
+      filters.orderId = Number(orderId);
+    }
+
+    if (status) {
+      filters.status = status;
+    }
+
+    if (address) {
+      filters.address = { contains: address as string, mode: 'insensitive' };
+    }
+
+    const deliveries = await prisma.delivery.findMany({
+      where: filters,
     });
 
-    if (!delivery) {
-      throw new HttpError(HttpStatusCode.NOT_FOUND, ErrorTitle.NOT_FOUND, ErrorMessage.NOT_FOUND);
-    }
+    const responseDeliveries = deliveries.map(delivery => ({
+      id: delivery.id,
+      orderId: delivery.orderId,
+      address: delivery.address,
+      status: delivery.status,
+    }));
 
-    new CustomResponse(res).send({ data: delivery });
+    new CustomResponse(res).send({ data: responseDeliveries });
   } catch (error) {
     handleError(error, res);
   }
 };
 
+
 export {
   createDelivery,
-  getDeliveryById,
+  getDelivery,
   updateDeliveryStatus,
   deleteDelivery,
-  getDeliveryByOrder,
+  getDeliveries,
 };

@@ -9,6 +9,9 @@ import userRoutes from './routes/userRoutes'
 import sellerRoutes from './routes/sellerRoutes'
 import menuRoutes from './routes/menuRoutes'
 import dishRoutes from './routes/dishRoutes'
+import orderRoutes from './routes/orderRoutes'
+import cartRoutes from './routes/cartRoutes'
+import wishlistRoutes from './routes/wishlistRoutes'
 
 configDotenv({ path: __dirname + '../../../.env' })
 
@@ -38,6 +41,9 @@ app.use('/api/users', authMiddleware, userRoutes)
 app.use('/api/sellers', authMiddleware, sellerRoutes)
 app.use('/api/menus', authMiddleware, menuRoutes)
 app.use('/api/dishes', authMiddleware, dishRoutes)
+app.use('/api/orders', authMiddleware, orderRoutes)
+app.use('/api/cart', authMiddleware, cartRoutes)
+app.use('/api/wishlist', authMiddleware, wishlistRoutes)
 
 app.get('/', async (req, res, next) => {
   res.send({ message: '🚀 API ready to serve! 🚀' })
