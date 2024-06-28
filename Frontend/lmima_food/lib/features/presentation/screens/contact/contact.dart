@@ -5,7 +5,7 @@ import '../../../../../core/util/responsive_size_adapter.dart';
 import '../../widgets/common/custom_text.dart';
 
 class ContactScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+  const ContactScreen({super.key});
 
   @override
   State<ContactScreen> createState() => _ContactScreenState();

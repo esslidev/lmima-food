@@ -4,14 +4,14 @@ import '../../../../../core/util/responsive_screen_adapter.dart';
 import '../../../../../core/util/responsive_size_adapter.dart';
 import '../../widgets/common/custom_text.dart';
 
-class PrivacyPolicyScreen extends StatefulWidget {
-  const PrivacyPolicyScreen({super.key});
+class OurPoliciesScreen extends StatefulWidget {
+  const OurPoliciesScreen({super.key});
 
   @override
-  State<PrivacyPolicyScreen> createState() => _PaymentScreenState();
+  State<OurPoliciesScreen> createState() => _OurPoliciesScreenState();
 }
 
-class _PaymentScreenState extends State<PrivacyPolicyScreen> {
+class _OurPoliciesScreenState extends State<OurPoliciesScreen> {
   late ResponsiveSizeAdapter R;
 
   @override
@@ -30,6 +30,6 @@ class _PaymentScreenState extends State<PrivacyPolicyScreen> {
   }
 
   Widget _buildDesktop(BuildContext context) {
-    return const CustomText(text: 'privacy policy');
+    return const CustomText(text: 'our policy');
   }
 }

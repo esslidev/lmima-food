@@ -37,27 +37,61 @@ class VectorsPaths {
 }
 
 class RoutesPaths {
+  final String signInScreen = '/sign-in';
+  final String signUpScreen = '/sign-up';
+  final String forgotPasswordScreen = '/forgot-password';
+  final String introScreen = '/intro';
   final String homeScreen = '/home';
   final String dashboardScreen = '/home/dashboard';
-  final String settingsScreen = '/home/settings';
+  final String menuCollectionsScreen = '/home/menu-collections';
+  final String menuDetailsScreen = '/home/menu-collections/menu-details';
+  final String dishesCollectionsScreen = '/home/dishes-collections';
+  final String dishDetailsScreen = '/home/dishes-collections/dish-details';
+  final String blogScreen = '/home/blog';
+  final String wishlistScreen = '/home/wishlist';
+  final String cartScreen = '/home/cart';
+  final String paymentScreen = '/home/payment';
+  final String userSettingsScreen = '/home/user-settings';
+  final String contactScreen = '/home/contact';
+  final String ourPoliciesScreen = '/home/our-policies';
   final String badRoutingScreen = '/bad-routing';
 
   String getRouteName(String route) {
     switch (route) {
       case '/sign-in':
         return 'Sign In';
+      case '/sign-up':
+        return 'Sign Up';
+      case '/forgot-password':
+        return 'Forgot Password';
+      case '/intro':
+        return 'Introduction';
       case '/home':
         return 'Home';
       case '/home/dashboard':
         return 'Dashboard';
-      case '/home/user-management':
-        return 'User Management';
-      case '/home/meal-plans':
-        return 'Meal Plans';
-      case '/home/fitness-plans':
-        return 'Fitness Plans';
-      case '/home/settings':
-        return 'Settings';
+      case '/home/menu-collections':
+        return 'Menu Collections';
+      case '/home/menu-collections/menu-details':
+        return 'Menu Details';
+      case '/home/dishes-collections':
+        return 'Dishes Collections';
+      case '/home/dishes-collections/dish-details':
+        return 'Dish Details';
+      case '/home/blog':
+        return 'Blog';
+      case '/home/wishlist':
+        return 'Wishlist';
+      case '/home/cart':
+        return 'Cart';
+      case '/home/payment':
+        return 'Payment';
+      case '/home/user-settings':
+        return 'User Settings';
+      case '/home/contact':
+        return 'Contact';
+      case '/home/our-policies':
+        return 'Our Policies';
       case '/bad-routing':
         return 'Bad Routing';
       default:
