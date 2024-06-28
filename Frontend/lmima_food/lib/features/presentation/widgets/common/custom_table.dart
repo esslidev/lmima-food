@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/constants/app_colors.dart';
-import '../../../core/util/responsive_size_adapter.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../core/util/responsive_size_adapter.dart';
 
 class CustomTableStyle {
   final Color? color;

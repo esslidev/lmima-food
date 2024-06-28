@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/util/responsive_size_adapter.dart';
-import '../../widgets/bread_crumbs.dart';
+import '../../widgets/common/bread_crumbs.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

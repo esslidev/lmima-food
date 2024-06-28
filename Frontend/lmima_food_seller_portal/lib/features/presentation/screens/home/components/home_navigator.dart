@@ -12,7 +12,7 @@ import '../../../../../core/util/responsive_size_adapter.dart';
 import '../../../../../locator.dart';
 import '../../../bloc/app_blocs/route/route_bloc.dart';
 import '../../../bloc/app_blocs/route/route_state.dart';
-import '../../../widgets/custom_button.dart';
+import '../../../widgets/common/custom_button.dart';
 
 class HomeNavigatorWidget extends StatefulWidget {
   const HomeNavigatorWidget({super.key});

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/util/responsive_size_adapter.dart';
+import '../../../../core/enums/app_enums.dart';
+import '../../../../core/util/responsive_size_adapter.dart';
 
 class CustomField extends StatefulWidget {
   final Color? backgroundColor;
@@ -9,8 +10,11 @@ class CustomField extends StatefulWidget {
   final double? borderRadius;
   final double borderWidth;
   final Color? borderColor;
-  final String arrangement; // 'row' or 'column'
+  final FieldArrangement arrangement; // 'row' or 'column'
   final List<Widget> children;
+  final bool isExpanded;
+  final MainAxisAlignment mainAxisAlignment;
+  final CrossAxisAlignment crossAxisAlignment;
 
   const CustomField({
     super.key,
@@ -18,12 +22,14 @@ class CustomField extends StatefulWidget {
     this.padding,
     this.margin,
     this.borderRadius,
-    this.borderWidth = 1.0,
+    this.borderWidth = 0.0,
     this.borderColor,
     required this.arrangement,
     required this.children,
-  }) : assert(arrangement == 'row' || arrangement == 'column',
-            'Arrangement must be either "row" or "column"');
+    this.isExpanded = false,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
+  });
 
   @override
   State<CustomField> createState() => _CustomFieldState();
@@ -36,7 +42,7 @@ class _CustomFieldState extends State<CustomField> {
   Widget build(BuildContext context) {
     R = ResponsiveSizeAdapter(context);
 
-    return Container(
+    Widget content = Container(
       margin: widget.margin,
       padding: widget.padding,
       decoration: BoxDecoration(
@@ -47,13 +53,19 @@ class _CustomFieldState extends State<CustomField> {
           width: widget.borderWidth,
         ),
       ),
-      child: widget.arrangement == 'row'
+      child: widget.arrangement == FieldArrangement.row
           ? Row(
+              mainAxisAlignment: widget.mainAxisAlignment,
+              crossAxisAlignment: widget.crossAxisAlignment,
               children: widget.children,
             )
           : Column(
+              mainAxisAlignment: widget.mainAxisAlignment,
+              crossAxisAlignment: widget.crossAxisAlignment,
               children: widget.children,
             ),
     );
+
+    return widget.isExpanded ? Expanded(child: content) : content;
   }
 }

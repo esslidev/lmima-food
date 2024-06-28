@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../core/util/responsive_size_adapter.dart';
+import '../../../../core/util/responsive_size_adapter.dart';
 
 class CustomTextField extends StatefulWidget {
   final Color? backgroundColor;

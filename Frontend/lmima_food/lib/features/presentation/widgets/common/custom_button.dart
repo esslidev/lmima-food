@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../config/theme/app_themes.dart';
-import '../../../core/util/responsive_size_adapter.dart';
+import '../../../../config/theme/app_themes.dart';
+import '../../../../core/util/responsive_size_adapter.dart';
 
 class CustomButtonStyle {
   final double? width;

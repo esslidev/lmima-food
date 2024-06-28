@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/util/responsive_size_adapter.dart';
+import '../../../../core/util/responsive_size_adapter.dart';
 
 class CustomField extends StatefulWidget {
   final Color? backgroundColor;

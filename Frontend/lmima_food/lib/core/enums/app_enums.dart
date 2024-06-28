@@ -1,0 +1,4 @@
+enum FieldArrangement {
+  row,
+  column,
+}
