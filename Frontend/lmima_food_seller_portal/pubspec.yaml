@@ -1,0 +1,123 @@
+name: lmima_food_seller_portal
+description: "Designed and implemented a sophisticated Flutter application using BLoC pattern, Beamer routing, and Clean Architecture principles."
+publish_to: 'none'
+version: 1.0.0
+license: All Rights Reserved
+
+environment:
+  sdk: '>=3.3.4 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  beamer: ^1.6.1
+  connectivity_plus: ^5.0.2
+  cupertino_icons: ^1.0.6
+  dio: ^5.3.3
+  equatable: ^2.0.5
+  floor: ^1.4.2
+  flutter_animate: ^4.2.0+1
+  flutter_bloc: ^8.1.2
+  flutter_hooks: ^0.20.3
+  flutter_localizations:
+    sdk: flutter
+  flutter_native_splash: ^2.4.0
+  flutter_svg: ^1.1.6
+  get_it: ^7.6.4
+  intl: ^0.18.1
+  json_annotation: ^4.8.1
+  logger: ^1.1.0
+  retrofit: ^4.0.3
+  shared_preferences: ^2.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.9
+  floor_generator: ^1.4.2
+  flutter_launcher_icons: ^0.13.1
+  json_serializable: ^6.7.1
+  retrofit_generator: '>=7.0.0 <8.0.0'
+
+flutter:
+  assets:
+    - assets/vectors/
+    - assets/images/
+    - assets/icons/
+    - assets/translations/
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/roboto-bold.ttf
+          weight: 700
+        - asset: assets/fonts/roboto-regular.ttf
+        - asset: assets/fonts/roboto-italic.ttf
+          style: italic
+        - asset: assets/fonts/roboto-bolditalic.ttf
+          style: italic
+          weight: 700
+    - family: Work-Sans
+      fonts:
+        - asset: assets/fonts/work-sans-thin.ttf
+          weight: 100
+        - asset: assets/fonts/work-sans-thinitalic.ttf
+          weight: 100
+          style: italic
+        - asset: assets/fonts/work-sans-extralight.ttf
+          weight: 200
+        - asset: assets/fonts/work-sans-extralightitalic.ttf
+          weight: 200
+          style: italic
+        - asset: assets/fonts/work-sans-light.ttf
+          weight: 300
+        - asset: assets/fonts/work-sans-lightitalic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/work-sans-regular.ttf
+          weight: 400
+        - asset: assets/fonts/work-sans-regularitalic.ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/work-sans-medium.ttf
+          weight: 500
+        - asset: assets/fonts/work-sans-mediumitalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/work-sans-semibold.ttf
+          weight: 600
+        - asset: assets/fonts/work-sans-semibolditalic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/work-sans-bold.ttf
+          weight: 700
+        - asset: assets/fonts/work-sans-bolditalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/work-sans-extrabold.ttf
+          weight: 800
+        - asset: assets/fonts/work-sans-extrabolditalic.ttf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/work-sans-black.ttf
+          weight: 900
+        - asset: assets/fonts/work-sans-blackitalic.ttf
+          weight: 900
+          style: italic
+
+  uses-material-design: true
+
+flutter_launcher_icons:
+  adaptive_icon_background: '#ffffff'
+  android: launcher_icon
+  image_path: assets/icons/icon.png
+  ios: true
+  min_sdk: 21
+  remove_alpha_ios: true
+  windows: assets/icons/icon.png
+
+flutter_native_splash:
+  android: true
+  color: '#ffffff'
+  image: assets/images/splash.png
+  ios: true

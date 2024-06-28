@@ -1,0 +1,15 @@
+{
+  "global": {
+    "email": "Email",
+    "password": "Password"
+  },
+  "loadingScreen": {
+    "loading": "Loading..."
+  },
+  "errorScreen": {
+    "defaultStatusCode": "520",
+    "defaultError": "Unknown Error",
+    "defaultErrorMessage": "The server encountered an unexpected condition.",
+    "close": "Close"
+  }
+}
