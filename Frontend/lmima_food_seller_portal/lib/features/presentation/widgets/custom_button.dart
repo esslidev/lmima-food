@@ -42,7 +42,11 @@ class CustomButton extends StatefulWidget {
   final bool isActive;
   final CustomButtonStyle? onActiveStyle;
   final CustomButtonStyle? onHoverStyle;
-  final VoidCallback? onPressed; // Add onPress property
+  final VoidCallback? onPressed;
+  final List<Widget>? dropdownItems;
+  final bool showDropdown;
+  final EdgeInsets? dropdownMargin;
+  final EdgeInsets? dropdownPadding;
 
   const CustomButton({
     super.key,
@@ -66,6 +70,10 @@ class CustomButton extends StatefulWidget {
     this.onActiveStyle,
     this.onHoverStyle,
     this.onPressed,
+    this.dropdownItems,
+    this.showDropdown = false,
+    this.dropdownMargin,
+    this.dropdownPadding,
   });
 
   @override
@@ -87,66 +95,83 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     R = ResponsiveSizeAdapter(context);
 
-    return Container(
-      margin: widget.margin,
-      width: widget.width,
-      height: widget.height,
-      child: MouseRegion(
-        onEnter: (_) => _onHover(true),
-        onExit: (_) => _onHover(false),
-        child: GestureDetector(
-          onTap: widget.onPressed,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
-            padding: widget.padding,
-            decoration: BoxDecoration(
-              color: widget.isActive
-                  ? widget.onActiveStyle?.backgroundColor
-                  : _isHovered
-                      ? widget.onHoverStyle?.backgroundColor
-                      : widget.backgroundColor,
-              borderRadius:
-                  BorderRadius.circular(widget.borderRadius ?? R.size(0)),
-              boxShadow: widget.isActive
-                  ? widget.onActiveStyle?.boxShadow
-                  : _isHovered
-                      ? widget.onHoverStyle?.boxShadow
-                      : widget.boxShadow,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                if (widget.svgIconPath != null)
-                  SvgPicture.asset(
-                    widget.svgIconPath!,
-                    color: widget.isActive
-                        ? widget.onActiveStyle?.iconColor
-                        : _isHovered
-                            ? widget.onHoverStyle?.iconColor
-                            : widget.iconColor,
-                    width: widget.iconWidth,
-                    height: widget.iconHeight,
-                  ),
-                if (widget.svgIconPath != null)
-                  SizedBox(width: widget.iconTextPadding ?? R.size(8)),
-                if (widget.text != null)
-                  Text(
-                    widget.text!,
-                    style: AppThemes.bodyText.copyWith(
-                      color: widget.isActive
-                          ? widget.onActiveStyle?.textColor
-                          : _isHovered
-                              ? widget.onHoverStyle?.textColor
-                              : widget.textColor,
-                      fontSize: widget.textSize,
-                      fontWeight: widget.fontWeight ?? FontWeight.w400,
-                    ),
-                  ),
-              ],
+    return Column(
+      children: [
+        Container(
+          margin: widget.margin,
+          width: widget.width,
+          height: widget.height,
+          child: MouseRegion(
+            onEnter: (_) => _onHover(true),
+            onExit: (_) => _onHover(false),
+            child: GestureDetector(
+              onTap: widget.onPressed,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
+                padding: widget.padding,
+                decoration: BoxDecoration(
+                  color: widget.isActive
+                      ? widget.onActiveStyle?.backgroundColor
+                      : _isHovered
+                          ? widget.onHoverStyle?.backgroundColor
+                          : widget.backgroundColor,
+                  borderRadius:
+                      BorderRadius.circular(widget.borderRadius ?? R.size(0)),
+                  boxShadow: widget.isActive
+                      ? widget.onActiveStyle?.boxShadow
+                      : _isHovered
+                          ? widget.onHoverStyle?.boxShadow
+                          : widget.boxShadow,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    if (widget.svgIconPath != null)
+                      SvgPicture.asset(
+                        widget.svgIconPath!,
+                        color: widget.isActive
+                            ? widget.onActiveStyle?.iconColor
+                            : _isHovered
+                                ? widget.onHoverStyle?.iconColor
+                                : widget.iconColor,
+                        width: widget.iconWidth,
+                        height: widget.iconHeight,
+                      ),
+                    if (widget.svgIconPath != null)
+                      SizedBox(width: widget.iconTextPadding ?? R.size(8)),
+                    if (widget.text != null)
+                      Text(
+                        widget.text!,
+                        style: AppThemes.bodyText.copyWith(
+                          color: widget.isActive
+                              ? widget.onActiveStyle?.textColor
+                              : _isHovered
+                                  ? widget.onHoverStyle?.textColor
+                                  : widget.textColor,
+                          fontSize: widget.textSize,
+                          fontWeight: widget.fontWeight ?? FontWeight.w400,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
-      ),
+        if (widget.showDropdown && widget.dropdownItems != null)
+          Container(
+            margin: widget.dropdownMargin ?? EdgeInsets.only(top: 8.0),
+            padding: widget.dropdownPadding ?? EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: widget.backgroundColor,
+              borderRadius: BorderRadius.circular(widget.borderRadius ?? 0.0),
+              boxShadow: widget.boxShadow,
+            ),
+            child: Column(
+              children: widget.dropdownItems!,
+            ),
+          ),
+      ],
     );
   }
 }

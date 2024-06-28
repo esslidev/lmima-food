@@ -1,81 +1,109 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../config/theme/app_themes.dart';
-import '../../../core/constants/app_colors.dart';
-import '../../../core/util/responsive_screen_adapter.dart';
 import '../../../core/util/responsive_size_adapter.dart';
 
-class CustomTextField extends StatelessWidget {
-  final double? width;
-  final double? fontSize;
-  final String? hint;
+class CustomTextField extends StatefulWidget {
+  final Color? backgroundColor;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final double? borderRadius;
+  final double borderWidth;
   final Color? borderColor;
-  final Color? focusedBorderColor;
-  final TextInputType? keyboardType;
-  final bool? obscureText;
-  final Function(String value)? onChanged;
+  final String? hintText;
+  final String? svgIconPath;
+  final double? iconWidth;
+  final double? iconHeight;
+  final Color? iconColor;
+  final VoidCallback? onIconPressed;
+  final List<Widget>? dropdownItems;
+  final bool showDropdown;
+  final EdgeInsets? dropdownMargin;
+  final EdgeInsets? dropdownPadding;
 
   const CustomTextField({
     super.key,
-    this.width,
-    this.fontSize,
-    this.hint,
+    this.backgroundColor,
+    this.padding,
+    this.margin,
+    this.borderRadius,
+    this.borderWidth = 1.0,
     this.borderColor,
-    this.focusedBorderColor,
-    this.keyboardType,
-    this.obscureText,
-    this.onChanged,
+    this.hintText,
+    this.svgIconPath,
+    this.iconWidth,
+    this.iconHeight,
+    this.iconColor,
+    this.onIconPressed,
+    this.dropdownItems,
+    this.showDropdown = false,
+    this.dropdownMargin,
+    this.dropdownPadding,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      child: ResponsiveScreenAdapter(
-        defaultScreen: _buildDialogMobile(context),
-        screenMobile: _buildDialogMobile(context),
-      ),
-    );
-  }
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
 
-  Widget _buildDialogMobile(BuildContext context) {
-    final ResponsiveSizeAdapter R = ResponsiveSizeAdapter(context);
+class _CustomTextFieldState extends State<CustomTextField> {
+  late ResponsiveSizeAdapter R;
+
+  @override
+  Widget build(BuildContext context) {
+    R = ResponsiveSizeAdapter(context);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (hint != null)
-          Text(
-            hint!,
-            style:
-                AppThemes.bodyText.copyWith(fontSize: fontSize ?? R.size(25)),
-          ),
-        SizedBox(
-          height: R.size(12),
-        ),
-        TextField(
-          style: TextStyle(fontSize: fontSize ?? R.size(30)),
-          obscureText: obscureText ?? false,
-          keyboardType: keyboardType,
-          onChanged: onChanged,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-                horizontal: R.size(30), vertical: R.size(10)),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: borderColor ?? AppColors.grayArsenic.withOpacity(.6),
-                width: R.size(2),
-              ),
-              borderRadius: BorderRadius.circular(0),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: focusedBorderColor ?? AppColors.greenBianchi,
-                width: R.size(3),
-              ),
+        Container(
+          margin: widget.margin,
+          padding: widget.padding,
+          decoration: BoxDecoration(
+            color: widget.backgroundColor,
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 0.0),
+            border: Border.all(
+              color: widget.borderColor ?? Colors.black,
+              width: widget.borderWidth,
             ),
           ),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: widget.hintText,
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              if (widget.svgIconPath != null)
+                IconButton(
+                  icon: SvgPicture.asset(
+                    widget.svgIconPath!,
+                    width: widget.iconWidth ?? 24.0,
+                    height: widget.iconHeight ?? 24.0,
+                    color: widget.iconColor,
+                  ),
+                  onPressed: widget.onIconPressed,
+                ),
+            ],
+          ),
         ),
+        if (widget.showDropdown && widget.dropdownItems != null)
+          Container(
+            margin: widget.dropdownMargin ?? EdgeInsets.only(top: R.size(8)),
+            padding: widget.dropdownPadding ?? EdgeInsets.all(R.size(8)),
+            decoration: BoxDecoration(
+              color: widget.backgroundColor,
+              borderRadius: BorderRadius.circular(widget.borderRadius ?? 0.0),
+              border: Border.all(
+                color: widget.borderColor ?? Colors.black,
+                width: widget.borderWidth,
+              ),
+            ),
+            child: Column(
+              children: widget.dropdownItems!,
+            ),
+          ),
       ],
     );
   }
