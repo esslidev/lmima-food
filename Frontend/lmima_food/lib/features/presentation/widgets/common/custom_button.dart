@@ -67,7 +67,7 @@ class CustomButton extends StatefulWidget {
   final CustomButtonStyle? onActiveStyle;
   final CustomButtonStyle? onHoverStyle;
   final VoidCallback? onPressed;
-  final List<Widget>? dropdownItems;
+  final List<CustomDropdownMenuItem>? dropdownItems;
   final DropdownStyle? dropdownStyle;
 
   const CustomButton({
@@ -128,14 +128,18 @@ class _CustomButtonState extends State<CustomButton> {
     if (_overlayEntry == null) {
       _overlayEntry = _createOverlayEntry();
       overlay.insert(_overlayEntry!);
-      _isDropdownVisible = true;
+      setState(() {
+        _isDropdownVisible = true;
+      });
     }
   }
 
   void _hideDropdown() {
     _overlayEntry?.remove();
     _overlayEntry = null;
-    _isDropdownVisible = false;
+    setState(() {
+      _isDropdownVisible = false;
+    });
   }
 
   OverlayEntry _createOverlayEntry() {
@@ -167,15 +171,19 @@ class _CustomButtonState extends State<CustomButton> {
                   widget.dropdownStyle?.borderRadius ??
                       const Radius.circular(6)),
               color: widget.dropdownStyle?.backgroundColor,
-              child: CustomField(
-                arrangement: FieldArrangement.column,
-                padding:
-                    widget.dropdownStyle?.padding ?? EdgeInsets.all(R.size(20)),
-                mainAxisAlignment: widget.dropdownStyle?.mainAxisAlignment ??
-                    MainAxisAlignment.center,
-                crossAxisAlignment: widget.dropdownStyle?.crossAxisAlignment ??
-                    CrossAxisAlignment.center,
-                children: widget.dropdownItems ?? [],
+              child: Column(
+                children: widget.dropdownItems?.map((item) {
+                      return GestureDetector(
+                        onTap: () {
+                          _hideDropdown();
+                          if (item.onTap != null) {
+                            item.onTap!();
+                          }
+                        },
+                        child: item.child,
+                      );
+                    }).toList() ??
+                    [],
               ),
             )),
       );
@@ -202,51 +210,64 @@ class _CustomButtonState extends State<CustomButton> {
         onEnter: (_) => _onHover(true),
         onExit: (_) => _onHover(false),
         child: GestureDetector(
-          onTap: _toggleDropdown,
-          child: Container(
-            margin: widget.margin,
-            width: widget.width,
-            height: widget.height,
-            padding: widget.padding,
-            decoration: BoxDecoration(
-              color: widget.isActive
-                  ? widget.onActiveStyle?.backgroundColor
-                  : widget.backgroundColor,
-              borderRadius: BorderRadius.circular(widget.borderRadius ?? 0.0),
-              boxShadow: widget.isActive
-                  ? widget.onActiveStyle?.boxShadow
-                  : widget.boxShadow,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                if (widget.svgIconPath != null)
-                  SvgPicture.asset(
-                    widget.svgIconPath!,
-                    color: widget.isActive
-                        ? widget.onActiveStyle?.iconColor
-                        : widget.iconColor,
-                    width: widget.iconWidth,
-                    height: widget.iconHeight,
-                  ),
-                if (widget.svgIconPath != null)
-                  SizedBox(width: widget.iconTextPadding ?? 8),
-                if (widget.text != null)
-                  Text(
-                    widget.text!,
-                    style: TextStyle(
+          onTap:
+              widget.dropdownItems != null ? _toggleDropdown : widget.onPressed,
+          child: IntrinsicWidth(
+            child: Container(
+              margin: widget.margin,
+              width: widget.width,
+              height: widget.height,
+              padding: widget.padding,
+              decoration: BoxDecoration(
+                color: widget.isActive
+                    ? widget.onActiveStyle?.backgroundColor
+                    : widget.backgroundColor,
+                borderRadius: BorderRadius.circular(widget.borderRadius ?? 0.0),
+                boxShadow: widget.isActive
+                    ? widget.onActiveStyle?.boxShadow
+                    : widget.boxShadow,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  if (widget.svgIconPath != null)
+                    SvgPicture.asset(
+                      widget.svgIconPath!,
                       color: widget.isActive
-                          ? widget.onActiveStyle?.textColor
-                          : widget.textColor,
-                      fontSize: widget.textSize,
-                      fontWeight: widget.fontWeight ?? FontWeight.w400,
+                          ? widget.onActiveStyle?.iconColor
+                          : widget.iconColor,
+                      width: widget.iconWidth,
+                      height: widget.iconHeight,
                     ),
-                  ),
-              ],
+                  if (widget.svgIconPath != null)
+                    SizedBox(width: widget.iconTextPadding ?? 8),
+                  if (widget.text != null)
+                    Text(
+                      widget.text!,
+                      style: TextStyle(
+                        color: widget.isActive
+                            ? widget.onActiveStyle?.textColor
+                            : widget.textColor,
+                        fontSize: widget.textSize,
+                        fontWeight: widget.fontWeight ?? FontWeight.w400,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
+}
+
+class CustomDropdownMenuItem {
+  final Widget child;
+  final VoidCallback? onTap;
+
+  CustomDropdownMenuItem({
+    required this.child,
+    this.onTap,
+  });
 }

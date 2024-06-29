@@ -44,26 +44,33 @@ class _HeaderTapeComponentState extends State<HeaderTapeComponent> {
             fontWeight: FontWeight.w600,
           ),
           CustomButton(
-            width: 100,
             height: R.size(40),
-            text: 'English',
+            text: 'French',
             textSize: R.size(14),
             textColor: AppColors.whiteSolid,
             fontWeight: FontWeight.w600,
             dropdownStyle: DropdownStyle(
-                width: R.size(200), dropdownAlignment: DropdownAlignment.end),
+                width: R.size(150),
+                dropdownAlignment: DropdownAlignment.center),
             dropdownItems: [
-              CustomButton(
-                width: 100,
-                height: R.size(40),
-                text: 'English',
-                textSize: R.size(14),
-              ),
-              CustomButton(
-                height: R.size(40),
-                text: 'English',
-                textSize: R.size(14),
-              )
+              CustomDropdownMenuItem(
+                  onTap: () {
+                    print('french switch');
+                  },
+                  child: CustomButton(
+                    height: R.size(40),
+                    text: 'French',
+                    textSize: R.size(14),
+                  )),
+              CustomDropdownMenuItem(
+                  onTap: () {
+                    print('English switch');
+                  },
+                  child: CustomButton(
+                    height: R.size(40),
+                    text: 'English',
+                    textSize: R.size(14),
+                  )),
             ],
           ),
         ]);
