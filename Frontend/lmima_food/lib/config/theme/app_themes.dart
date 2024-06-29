@@ -13,11 +13,11 @@ class AppThemes {
 
   static const TextStyle headline = TextStyle(
     fontWeight: FontWeight.w500,
-    color: AppColors.grayArsenic,
+    color: AppColors.grayTahitianPearl,
   );
   static const TextStyle secondaryHeadline = TextStyle(
     fontWeight: FontWeight.w600,
-    color: AppColors.grayArsenic,
+    color: AppColors.grayTahitianPearl,
   );
 
   static const TextStyle bodyText =

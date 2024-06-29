@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../config/theme/app_themes.dart';
 import '../../../../core/util/responsive_size_adapter.dart';
@@ -16,14 +16,14 @@ class CustomText extends StatelessWidget {
   final double? iconHeight;
   final Color? iconColor;
   final double? iconTextPadding;
-  final double? letterSpacing; // Added letterSpacing property
+  final double? letterSpacing;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
   final int? maxLines;
   final TextOverflow? overflow;
 
   const CustomText({
-    super.key,
+    Key? key,
     required this.text,
     this.style,
     this.color,
@@ -35,12 +35,12 @@ class CustomText extends StatelessWidget {
     this.iconHeight,
     this.iconColor,
     this.iconTextPadding,
-    this.letterSpacing, // Added letterSpacing parameter
+    this.letterSpacing,
     this.padding,
     this.margin,
     this.maxLines,
     this.overflow,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,36 +50,34 @@ class CustomText extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          if (svgIconPath != null)
+          if (svgIconPath != null && svgIconPath!.isNotEmpty)
             SvgPicture.asset(
               svgIconPath!,
               color: iconColor,
               width: iconWidth,
               height: iconHeight,
             ),
-          if (svgIconPath != null)
+          if (svgIconPath != null && svgIconPath!.isNotEmpty)
             SizedBox(
                 width:
                     iconTextPadding ?? ResponsiveSizeAdapter(context).size(8)),
-          Expanded(
-            child: Text(
-              text,
-              style: style?.copyWith(
-                    color: color,
-                    fontSize: fontSize,
-                    fontWeight: fontWeight,
-                    letterSpacing: letterSpacing, // Applying letterSpacing here
-                  ) ??
-                  AppThemes.bodyText.copyWith(
-                    color: color,
-                    fontSize: fontSize,
-                    fontWeight: fontWeight,
-                    letterSpacing: letterSpacing, // Applying letterSpacing here
-                  ),
-              textAlign: textAlign,
-              maxLines: maxLines,
-              overflow: overflow,
-            ),
+          Text(
+            text,
+            style: style?.copyWith(
+                  color: color,
+                  fontSize: fontSize,
+                  fontWeight: fontWeight,
+                  letterSpacing: letterSpacing,
+                ) ??
+                AppThemes.bodyText.copyWith(
+                  color: color,
+                  fontSize: fontSize,
+                  fontWeight: fontWeight,
+                  letterSpacing: letterSpacing,
+                ),
+            textAlign: textAlign,
+            maxLines: maxLines,
+            overflow: overflow,
           ),
         ],
       ),

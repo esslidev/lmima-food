@@ -62,7 +62,7 @@ class ErrorOverlay {
                 style: AppThemes.headline.copyWith(
                     fontSize: R.size(60),
                     letterSpacing: R.size(5),
-                    color: AppColors.greenGoblin.withOpacity(.8)),
+                    color: AppColors.greenBianchi.withOpacity(.8)),
               ),
               SizedBox(height: R.size(20)),
               Text(
@@ -72,7 +72,7 @@ class ErrorOverlay {
                   style: AppThemes.secondaryHeadline.copyWith(
                       fontSize: R.size(30),
                       letterSpacing: R.size(5),
-                      color: AppColors.grayArsenic)),
+                      color: AppColors.grayTahitianPearl)),
               SizedBox(height: R.size(20)),
               Text(
                   errorMessage ??
@@ -80,12 +80,13 @@ class ErrorOverlay {
                           .translate('errorScreen.defaultErrorMessage'),
                   textAlign: TextAlign.center,
                   style: AppThemes.bodyText.copyWith(
-                      fontSize: R.size(25), color: AppColors.grayArsenic)),
+                      fontSize: R.size(25),
+                      color: AppColors.grayTahitianPearl)),
               SizedBox(height: R.size(20)),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: AppColors.greenGoblin,
+                  backgroundColor: AppColors.greenBianchi,
                   elevation: 0,
                   padding: R.padding(20),
                   shape: RoundedRectangleBorder(

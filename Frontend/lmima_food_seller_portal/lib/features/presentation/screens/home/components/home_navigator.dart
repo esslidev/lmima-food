@@ -70,7 +70,7 @@ class _HomeNavigatorState extends State<HomeNavigatorWidget> {
           color: Colors.white,
           border: Border(
             right: BorderSide(
-              color: AppColors.grayArsenic.withOpacity(0.3),
+              color: AppColors.grayTahitianPearl.withOpacity(0.3),
               width: R.size(0.5),
             ),
           ),
@@ -155,7 +155,7 @@ class _HomeNavigatorState extends State<HomeNavigatorWidget> {
           style: TextStyle(
             fontSize: responsiveSizeAdapter.size(13),
             fontWeight: FontWeight.w600,
-            color: AppColors.grayArsenic,
+            color: AppColors.grayTahitianPearl,
           ),
         ),
       ],
@@ -172,7 +172,7 @@ class _HomeNavigatorState extends State<HomeNavigatorWidget> {
     return CustomButton(
       text: title,
       textSize: R.size(11),
-      textColor: AppColors.grayArsenic,
+      textColor: AppColors.grayTahitianPearl,
       fontWeight: FontWeight.w500,
       padding: EdgeInsets.symmetric(
         vertical: R.size(10),
@@ -190,7 +190,7 @@ class _HomeNavigatorState extends State<HomeNavigatorWidget> {
         iconColor: Colors.white,
       ),
       onHoverStyle: CustomButtonStyle(
-        textColor: AppColors.grayArsenic,
+        textColor: AppColors.grayTahitianPearl,
         iconColor: iconColor ?? AppColors.greenBianchi,
         backgroundColor: AppColors.whiteSolid,
       ),

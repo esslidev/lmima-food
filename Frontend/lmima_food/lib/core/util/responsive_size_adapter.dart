@@ -8,7 +8,7 @@ class ResponsiveSizeAdapter {
   double size(double baseSize) {
     try {
       double shortestSide = MediaQuery.of(context).size.shortestSide;
-      const double referenceScreenWidth = 720.0;
+      const double referenceScreenWidth = 1000.0;
       double screenWidthRatio = shortestSide / referenceScreenWidth;
       return baseSize * screenWidthRatio;
     } catch (error) {

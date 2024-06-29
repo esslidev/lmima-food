@@ -27,7 +27,7 @@ class _TopBarWidgetState extends State<TopBarWidget> {
         color: Colors.white,
         border: Border(
           bottom: BorderSide(
-            color: AppColors.grayArsenic.withOpacity(0.3),
+            color: AppColors.grayTahitianPearl.withOpacity(0.3),
             width: R.size(.5),
           ),
         ),

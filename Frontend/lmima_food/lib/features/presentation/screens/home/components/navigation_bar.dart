@@ -5,14 +5,14 @@ import '../../../../../core/util/responsive_screen_adapter.dart';
 import '../../../../../core/util/responsive_size_adapter.dart';
 import '../../../widgets/common/custom_text.dart';
 
-class HeaderComponent extends StatefulWidget {
-  const HeaderComponent({super.key});
+class NavigationBarComponent extends StatefulWidget {
+  const NavigationBarComponent({super.key});
 
   @override
-  State<HeaderComponent> createState() => _HeaderComponentState();
+  State<NavigationBarComponent> createState() => _NavigationBarComponentState();
 }
 
-class _HeaderComponentState extends State<HeaderComponent> {
+class _NavigationBarComponentState extends State<NavigationBarComponent> {
   late ResponsiveSizeAdapter R;
 
   @override
@@ -26,6 +26,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
   }
 
   Widget _buildDesktop(BuildContext context) {
-    return const CustomText(text: 'header');
+    return const CustomText(text: 'navigation bar');
   }
 }

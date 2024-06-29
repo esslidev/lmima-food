@@ -2,6 +2,8 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:lmima_food/core/enums/app_enums.dart';
 import 'package:lmima_food/features/presentation/screens/home/components/footer.dart';
+import 'package:lmima_food/features/presentation/screens/home/components/header_tape.dart';
+import 'package:lmima_food/features/presentation/screens/home/components/navigation_bar.dart';
 import 'package:lmima_food/features/presentation/widgets/common/field.dart';
 import '../../../../config/routes/home_routes.dart';
 import '../../../../core/util/route_path_service.dart';
@@ -42,7 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildDesktop(BuildContext context) {
     return CustomField(arrangement: FieldArrangement.column, children: [
+      const HeaderTapeComponent(),
       const HeaderComponent(),
+      const NavigationBarComponent(),
       Expanded(
         child: Beamer(
           routerDelegate: HomeRoutes.homeBeamerDelegate,
