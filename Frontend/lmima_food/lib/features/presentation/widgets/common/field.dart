@@ -17,6 +17,7 @@ class CustomField extends StatefulWidget {
   final int flex;
   final double? width;
   final double? height;
+  final double gap; // New gap parameter
 
   const CustomField({
     Key? key,
@@ -34,6 +35,7 @@ class CustomField extends StatefulWidget {
     this.flex = 1,
     this.width,
     this.height,
+    this.gap = 0.0, // Default value for gap
   }) : super(key: key);
 
   @override
@@ -51,6 +53,18 @@ class _CustomFieldState extends State<CustomField> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> spacedChildren = [];
+    for (int i = 0; i < widget.children.length; i++) {
+      spacedChildren.add(widget.children[i]);
+      if (i < widget.children.length - 1) {
+        spacedChildren.add(SizedBox(
+          width: widget.arrangement == FieldArrangement.row ? widget.gap : 0,
+          height:
+              widget.arrangement == FieldArrangement.column ? widget.gap : 0,
+        ));
+      }
+    }
+
     Widget content = Container(
       width: widget.width,
       height: widget.height,
@@ -70,7 +84,7 @@ class _CustomFieldState extends State<CustomField> {
             : Axis.vertical,
         mainAxisAlignment: widget.mainAxisAlignment,
         crossAxisAlignment: widget.crossAxisAlignment,
-        children: widget.children,
+        children: spacedChildren,
       ),
     );
 

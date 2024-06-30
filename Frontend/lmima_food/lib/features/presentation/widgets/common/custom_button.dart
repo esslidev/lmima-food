@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lmima_food/features/presentation/widgets/common/field.dart';
 
 import '../../../../core/enums/app_enums.dart';
+import '../../../../core/resources/custom_dropdown_menu_item.dart';
 import '../../../../core/util/responsive_size_adapter.dart';
 
 class CustomButtonStyle {
@@ -13,13 +13,14 @@ class CustomButtonStyle {
   final Color? textColor;
   final List<BoxShadow>? boxShadow;
 
-  CustomButtonStyle(
-      {this.width,
-      this.height,
-      this.iconColor,
-      this.backgroundColor,
-      this.textColor,
-      this.boxShadow});
+  CustomButtonStyle({
+    this.width,
+    this.height,
+    this.iconColor,
+    this.backgroundColor,
+    this.textColor,
+    this.boxShadow,
+  });
 }
 
 class DropdownStyle {
@@ -55,6 +56,7 @@ class CustomButton extends StatefulWidget {
   final String? svgIconPath;
   final double? iconWidth;
   final double? iconHeight;
+  final IconPosition iconPosition;
   final Color? iconColor;
   final double? iconTextPadding;
   final String? text;
@@ -80,6 +82,7 @@ class CustomButton extends StatefulWidget {
     this.svgIconPath,
     this.iconWidth,
     this.iconHeight,
+    this.iconPosition = IconPosition.right,
     this.iconColor,
     this.iconTextPadding,
     this.text,
@@ -162,30 +165,30 @@ class _CustomButtonState extends State<CustomButton> {
         width: widget.dropdownStyle?.width ?? R.size(200),
         height: widget.dropdownStyle?.height,
         child: CompositedTransformFollower(
-            link: _layerLink,
-            showWhenUnlinked: false,
-            offset: Offset(xOffset, (widget.height ?? 0) + 10),
-            child: Material(
-              elevation: widget.dropdownStyle?.elevation ?? 3,
-              borderRadius: BorderRadius.all(
-                  widget.dropdownStyle?.borderRadius ??
-                      const Radius.circular(6)),
-              color: widget.dropdownStyle?.backgroundColor,
-              child: Column(
-                children: widget.dropdownItems?.map((item) {
-                      return GestureDetector(
-                        onTap: () {
-                          _hideDropdown();
-                          if (item.onTap != null) {
-                            item.onTap!();
-                          }
-                        },
-                        child: item.child,
-                      );
-                    }).toList() ??
-                    [],
-              ),
-            )),
+          link: _layerLink,
+          showWhenUnlinked: false,
+          offset: Offset(xOffset, (widget.height ?? 0) + 10),
+          child: Material(
+            elevation: widget.dropdownStyle?.elevation ?? 3,
+            borderRadius: BorderRadius.all(
+                widget.dropdownStyle?.borderRadius ?? const Radius.circular(6)),
+            color: widget.dropdownStyle?.backgroundColor,
+            child: Column(
+              children: widget.dropdownItems?.map((item) {
+                    return GestureDetector(
+                      onTap: () {
+                        _hideDropdown();
+                        if (item.onTap != null) {
+                          item.onTap!();
+                        }
+                      },
+                      child: item.child,
+                    );
+                  }).toList() ??
+                  [],
+            ),
+          ),
+        ),
       );
     });
   }
@@ -205,69 +208,115 @@ class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
-      link: _layerLink,
-      child: MouseRegion(
-        onEnter: (_) => _onHover(true),
-        onExit: (_) => _onHover(false),
-        child: GestureDetector(
-          onTap:
-              widget.dropdownItems != null ? _toggleDropdown : widget.onPressed,
-          child: IntrinsicWidth(
-            child: Container(
-              margin: widget.margin,
-              width: widget.width,
-              height: widget.height,
-              padding: widget.padding,
-              decoration: BoxDecoration(
-                color: widget.isActive
-                    ? widget.onActiveStyle?.backgroundColor
-                    : widget.backgroundColor,
-                borderRadius: BorderRadius.circular(widget.borderRadius ?? 0.0),
-                boxShadow: widget.isActive
-                    ? widget.onActiveStyle?.boxShadow
-                    : widget.boxShadow,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  if (widget.svgIconPath != null)
-                    SvgPicture.asset(
-                      widget.svgIconPath!,
-                      color: widget.isActive
-                          ? widget.onActiveStyle?.iconColor
-                          : widget.iconColor,
-                      width: widget.iconWidth,
-                      height: widget.iconHeight,
-                    ),
-                  if (widget.svgIconPath != null)
-                    SizedBox(width: widget.iconTextPadding ?? 8),
-                  if (widget.text != null)
-                    Text(
-                      widget.text!,
-                      style: TextStyle(
-                        color: widget.isActive
-                            ? widget.onActiveStyle?.textColor
-                            : widget.textColor,
-                        fontSize: widget.textSize,
-                        fontWeight: widget.fontWeight ?? FontWeight.w400,
-                      ),
-                    ),
-                ],
+        link: _layerLink,
+        child: MouseRegion(
+          onEnter: (_) => _onHover(true),
+          onExit: (_) => _onHover(false),
+          child: GestureDetector(
+            onTap: widget.dropdownItems != null
+                ? _toggleDropdown
+                : widget.onPressed,
+            child: IntrinsicWidth(
+              child: Container(
+                margin: widget.margin,
+                width: widget.width,
+                height: widget.height,
+                padding: widget.padding,
+                decoration: BoxDecoration(
+                  color: widget.isActive
+                      ? widget.onActiveStyle?.backgroundColor
+                      : _isHovered
+                          ? widget.onHoverStyle?.backgroundColor
+                          : widget.backgroundColor,
+                  borderRadius:
+                      BorderRadius.circular(widget.borderRadius ?? 0.0),
+                  boxShadow: widget.isActive
+                      ? widget.onActiveStyle?.boxShadow
+                      : _isHovered
+                          ? widget.onHoverStyle?.boxShadow
+                          : widget.boxShadow,
+                ),
+                child: _buildButtonContent(),
               ),
             ),
           ),
-        ),
+        ));
+  }
+
+  Widget _buildButtonContent() {
+    switch (widget.iconPosition) {
+      case IconPosition.top:
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (widget.svgIconPath != null) _buildIcon(),
+            if (widget.svgIconPath != null)
+              SizedBox(height: widget.iconTextPadding ?? R.size(6)),
+            if (widget.text != null) _buildText(),
+          ],
+        );
+      case IconPosition.left:
+        return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          if (widget.svgIconPath != null) _buildIcon(),
+          if (widget.svgIconPath != null)
+            SizedBox(width: widget.iconTextPadding ?? R.size(6)),
+          if (widget.text != null) _buildText(),
+        ]);
+      case IconPosition.right:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            if (widget.text != null) _buildText(),
+            if (widget.svgIconPath != null)
+              SizedBox(width: widget.iconTextPadding ?? R.size(6)),
+            if (widget.svgIconPath != null) _buildIcon(),
+          ],
+        );
+      case IconPosition.bottom:
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (widget.text != null) _buildText(),
+            if (widget.svgIconPath != null)
+              SizedBox(height: widget.iconTextPadding ?? R.size(6)),
+            if (widget.svgIconPath != null) _buildIcon(),
+          ],
+        );
+      default:
+        return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          if (widget.svgIconPath != null) _buildIcon(),
+          if (widget.svgIconPath != null)
+            SizedBox(height: widget.iconTextPadding ?? R.size(6)),
+          if (widget.text != null) _buildText(),
+        ]); // Handle the default case here if needed
+    }
+  }
+
+  _buildIcon() {
+    return SvgPicture.asset(
+      widget.svgIconPath!,
+      color: widget.isActive
+          ? widget.onActiveStyle?.iconColor
+          : _isHovered
+              ? widget.onHoverStyle?.iconColor
+              : widget.iconColor,
+      width: widget.iconWidth,
+      height: widget.iconHeight,
+    );
+  }
+
+  _buildText() {
+    return Text(
+      widget.text!,
+      style: TextStyle(
+        color: widget.isActive
+            ? widget.onActiveStyle?.textColor
+            : _isHovered
+                ? widget.onHoverStyle?.textColor
+                : widget.textColor,
+        fontSize: widget.textSize,
+        fontWeight: widget.fontWeight ?? FontWeight.w400,
       ),
     );
   }
-}
-
-class CustomDropdownMenuItem {
-  final Widget child;
-  final VoidCallback? onTap;
-
-  CustomDropdownMenuItem({
-    required this.child,
-    this.onTap,
-  });
 }

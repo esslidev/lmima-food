@@ -23,12 +23,16 @@ class IconsPaths {
 }
 
 class ImagesPaths {
+  final String logo = 'assets/images/logo.png';
   final String defaultProfilePicture =
       'assets/images/default-profile-picture.jpg';
 }
 
 class VectorsPaths {
 // Home nav icons paths
+  final String profileIcon = 'assets/vectors/profile-icon.svg';
+  final String wishlistIcon = 'assets/vectors/wishlist-icon.svg';
+  final String cartIcon = 'assets/vectors/cart-icon.svg';
   final String homeIcon = 'assets/vectors/home-icon.svg';
   final String dashboardIcon = 'assets/vectors/dashboard-icon.svg';
   final String settingsIcon = 'assets/vectors/settings-icon.svg';
