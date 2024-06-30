@@ -5,9 +5,11 @@ enum FieldArrangement {
 
 enum DropdownAlignment { start, center, end }
 
-enum IconPosition {
+enum CustomButtonIconPosition {
   left,
   right,
   top,
   bottom,
 }
+
+enum CustomTextFieldIconPosition { start, end }

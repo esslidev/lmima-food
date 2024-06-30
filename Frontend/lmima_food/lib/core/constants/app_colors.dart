@@ -7,7 +7,7 @@ class AppColors {
   static const Color grayTahitianPearl = Color(0xFF273746);
   static const Color redLingonBerry = Color(0xFFD3455B);
   static const Color blueScooter = Color(0xFF2B889D);
-  static const Color whiteSolid = Color(0xFFF5F7FA);
+  static const Color whiteSolid = Color(0xFFFFFFFF);
   static LightTheme get light => LightTheme();
   static DarkTheme get dark => DarkTheme();
 }

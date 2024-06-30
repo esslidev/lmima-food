@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/enums/app_enums.dart';
 import '../../../../core/resources/custom_dropdown_menu_item.dart';
+import '../../../../core/resources/drop_down_style.dart';
 import '../../../../core/util/responsive_size_adapter.dart';
 
 class CustomButtonStyle {
@@ -23,30 +24,6 @@ class CustomButtonStyle {
   });
 }
 
-class DropdownStyle {
-  final double? width;
-  final double? height;
-  final EdgeInsets padding;
-  final MainAxisAlignment mainAxisAlignment;
-  final CrossAxisAlignment crossAxisAlignment;
-  final Color? backgroundColor;
-  final Radius borderRadius;
-  final double elevation;
-  final DropdownAlignment dropdownAlignment;
-
-  DropdownStyle({
-    this.width,
-    this.height,
-    this.padding = const EdgeInsets.all(0.0),
-    this.mainAxisAlignment = MainAxisAlignment.center,
-    this.crossAxisAlignment = CrossAxisAlignment.center,
-    this.backgroundColor,
-    this.borderRadius = const Radius.circular(6),
-    this.elevation = 6,
-    this.dropdownAlignment = DropdownAlignment.start,
-  });
-}
-
 class CustomButton extends StatefulWidget {
   final double? width;
   final double? height;
@@ -56,7 +33,7 @@ class CustomButton extends StatefulWidget {
   final String? svgIconPath;
   final double? iconWidth;
   final double? iconHeight;
-  final IconPosition iconPosition;
+  final CustomButtonIconPosition iconPosition;
   final Color? iconColor;
   final double? iconTextPadding;
   final String? text;
@@ -82,7 +59,7 @@ class CustomButton extends StatefulWidget {
     this.svgIconPath,
     this.iconWidth,
     this.iconHeight,
-    this.iconPosition = IconPosition.right,
+    this.iconPosition = CustomButtonIconPosition.right,
     this.iconColor,
     this.iconTextPadding,
     this.text,
@@ -245,7 +222,7 @@ class _CustomButtonState extends State<CustomButton> {
 
   Widget _buildButtonContent() {
     switch (widget.iconPosition) {
-      case IconPosition.top:
+      case CustomButtonIconPosition.top:
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -255,14 +232,14 @@ class _CustomButtonState extends State<CustomButton> {
             if (widget.text != null) _buildText(),
           ],
         );
-      case IconPosition.left:
+      case CustomButtonIconPosition.left:
         return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           if (widget.svgIconPath != null) _buildIcon(),
           if (widget.svgIconPath != null)
             SizedBox(width: widget.iconTextPadding ?? R.size(6)),
           if (widget.text != null) _buildText(),
         ]);
-      case IconPosition.right:
+      case CustomButtonIconPosition.right:
         return Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -272,7 +249,7 @@ class _CustomButtonState extends State<CustomButton> {
             if (widget.svgIconPath != null) _buildIcon(),
           ],
         );
-      case IconPosition.bottom:
+      case CustomButtonIconPosition.bottom:
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

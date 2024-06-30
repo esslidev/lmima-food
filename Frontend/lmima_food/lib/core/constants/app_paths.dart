@@ -33,6 +33,8 @@ class VectorsPaths {
   final String profileIcon = 'assets/vectors/profile-icon.svg';
   final String wishlistIcon = 'assets/vectors/wishlist-icon.svg';
   final String cartIcon = 'assets/vectors/cart-icon.svg';
+  final String searchIcon = 'assets/vectors/search-icon.svg';
+  final String arrowDownIcon = 'assets/vectors/arrow-down-icon.svg';
   final String homeIcon = 'assets/vectors/home-icon.svg';
   final String dashboardIcon = 'assets/vectors/dashboard-icon.svg';
   final String settingsIcon = 'assets/vectors/settings-icon.svg';

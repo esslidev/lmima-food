@@ -1,44 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 
+import '../../../../core/enums/app_enums.dart';
+import '../../../../core/resources/custom_dropdown_menu_item.dart';
+import '../../../../core/resources/drop_down_style.dart';
 import '../../../../core/util/responsive_size_adapter.dart';
 
 class CustomTextField extends StatefulWidget {
-  final Color? backgroundColor;
-  final EdgeInsets? padding;
-  final EdgeInsets? margin;
+  final double? width;
+  final double? height;
+  final EdgeInsets margin;
+  final EdgeInsets padding;
   final double? borderRadius;
-  final double borderWidth;
-  final Color? borderColor;
-  final String? hintText;
   final String? svgIconPath;
   final double? iconWidth;
   final double? iconHeight;
+  final CustomTextFieldIconPosition iconPosition;
   final Color? iconColor;
-  final VoidCallback? onIconPressed;
-  final List<Widget>? dropdownItems;
-  final bool showDropdown;
-  final EdgeInsets? dropdownMargin;
-  final EdgeInsets? dropdownPadding;
+  final String? hintText;
+  final TextStyle? hintStyle;
+  final TextStyle? textStyle;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final List<CustomDropdownMenuItem>? dropdownItems;
+  final DropdownStyle? dropdownStyle;
 
   const CustomTextField({
     super.key,
-    this.backgroundColor,
-    this.padding,
-    this.margin,
+    this.width,
+    this.height,
+    this.margin = const EdgeInsets.all(0.0),
+    this.padding = const EdgeInsets.all(0.0),
     this.borderRadius,
-    this.borderWidth = 1.0,
-    this.borderColor,
-    this.hintText,
     this.svgIconPath,
     this.iconWidth,
     this.iconHeight,
+    this.iconPosition = CustomTextFieldIconPosition.end,
     this.iconColor,
-    this.onIconPressed,
+    this.hintText,
+    this.hintStyle,
+    this.textStyle,
+    this.backgroundColor,
+    this.borderColor,
     this.dropdownItems,
-    this.showDropdown = false,
-    this.dropdownMargin,
-    this.dropdownPadding,
+    this.dropdownStyle,
   });
 
   @override
@@ -48,63 +53,163 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   late ResponsiveSizeAdapter R;
 
+  final TextEditingController _controller = TextEditingController();
+  OverlayEntry? _overlayEntry;
+  final LayerLink _layerLink = LayerLink();
+
+  bool _isDropdownVisible = false;
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     R = ResponsiveSizeAdapter(context);
 
-    return Column(
-      children: [
-        Container(
+    // Add a listener to the controller to detect changes in text
+    _controller.addListener(() {
+      if (_controller.text.isNotEmpty) {
+        _showDropdown();
+      } else {
+        _hideDropdown();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _overlayEntry?.remove();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _toggleDropdown() {
+    if (_isDropdownVisible) {
+      _hideDropdown();
+    } else {
+      _showDropdown();
+    }
+  }
+
+  void _showDropdown() {
+    final overlay = Overlay.of(context);
+    if (_overlayEntry == null) {
+      _overlayEntry = _createOverlayEntry();
+      overlay.insert(_overlayEntry!);
+      setState(() {
+        _isDropdownVisible = true;
+      });
+    }
+  }
+
+  void _hideDropdown() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    setState(() {
+      _isDropdownVisible = false;
+    });
+  }
+
+  OverlayEntry _createOverlayEntry() {
+    return OverlayEntry(builder: (context) {
+      final double xOffset;
+      switch (widget.dropdownStyle?.dropdownAlignment) {
+        case DropdownAlignment.start:
+          xOffset = 0;
+          break;
+        case DropdownAlignment.center:
+          xOffset = -((widget.width ?? R.size(200)) / 2);
+          break;
+        case DropdownAlignment.end:
+        default:
+          xOffset = -(widget.width ?? R.size(200));
+          break;
+      }
+
+      return Positioned(
+        width: widget.dropdownStyle?.width ?? R.size(200),
+        height: widget.dropdownStyle?.height,
+        child: CompositedTransformFollower(
+          link: _layerLink,
+          showWhenUnlinked: false,
+          offset: Offset(xOffset, (widget.height ?? 0) + 10),
+          child: Material(
+            elevation: widget.dropdownStyle?.elevation ?? 3,
+            borderRadius: BorderRadius.all(
+                widget.dropdownStyle?.borderRadius ?? const Radius.circular(6)),
+            color: widget.dropdownStyle?.backgroundColor,
+            child: Column(
+              children: widget.dropdownItems?.map((item) {
+                    return GestureDetector(
+                      onTap: () {
+                        _hideDropdown();
+                        if (item.onTap != null) {
+                          item.onTap!();
+                        }
+                      },
+                      child: item.child,
+                    );
+                  }).toList() ??
+                  [],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CompositedTransformTarget(
+      link: _layerLink,
+      child: IntrinsicWidth(
+        child: Container(
+          width: widget.width,
+          height: widget.height,
           margin: widget.margin,
           padding: widget.padding,
           decoration: BoxDecoration(
-            color: widget.backgroundColor,
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? 0.0),
-            border: Border.all(
-              color: widget.borderColor ?? Colors.black,
-              width: widget.borderWidth,
-            ),
+            color: widget.backgroundColor ?? Colors.white,
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 6),
+            border: Border.all(color: widget.borderColor ?? Colors.grey),
           ),
           child: Row(
             children: [
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: widget.hintText,
-                    border: InputBorder.none,
+              if (widget.svgIconPath != null &&
+                  widget.iconPosition == CustomTextFieldIconPosition.start)
+                Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: SvgPicture.asset(
+                    widget.svgIconPath!,
+                    color: widget.iconColor,
+                    width: widget.iconWidth,
+                    height: widget.iconHeight,
                   ),
                 ),
-              ),
-              if (widget.svgIconPath != null)
-                IconButton(
-                  icon: SvgPicture.asset(
-                    widget.svgIconPath!,
-                    width: widget.iconWidth ?? 24.0,
-                    height: widget.iconHeight ?? 24.0,
-                    color: widget.iconColor,
+              Expanded(
+                child: TextField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    hintText: widget.hintText,
+                    hintStyle: widget.hintStyle,
+                    border: InputBorder.none,
                   ),
-                  onPressed: widget.onIconPressed,
+                  style: widget.textStyle,
+                ),
+              ),
+              if (widget.svgIconPath != null &&
+                  widget.iconPosition == CustomTextFieldIconPosition.end)
+                Padding(
+                  padding: const EdgeInsets.only(left: 0.0),
+                  child: SvgPicture.asset(
+                    widget.svgIconPath!,
+                    color: widget.iconColor,
+                    width: widget.iconWidth,
+                    height: widget.iconHeight,
+                  ),
                 ),
             ],
           ),
         ),
-        if (widget.showDropdown && widget.dropdownItems != null)
-          Container(
-            margin: widget.dropdownMargin ?? EdgeInsets.only(top: R.size(8)),
-            padding: widget.dropdownPadding ?? EdgeInsets.all(R.size(8)),
-            decoration: BoxDecoration(
-              color: widget.backgroundColor,
-              borderRadius: BorderRadius.circular(widget.borderRadius ?? 0.0),
-              border: Border.all(
-                color: widget.borderColor ?? Colors.black,
-                width: widget.borderWidth,
-              ),
-            ),
-            child: Column(
-              children: widget.dropdownItems!,
-            ),
-          ),
-      ],
+      ),
     );
   }
 }
