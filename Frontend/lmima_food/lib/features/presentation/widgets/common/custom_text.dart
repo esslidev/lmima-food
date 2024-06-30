@@ -21,9 +21,10 @@ class CustomText extends StatelessWidget {
   final EdgeInsets? margin;
   final int? maxLines;
   final TextOverflow? overflow;
+  final double? lineHeight; // Add line height property
 
   const CustomText({
-    Key? key,
+    super.key,
     required this.text,
     this.style,
     this.color,
@@ -40,7 +41,8 @@ class CustomText extends StatelessWidget {
     this.margin,
     this.maxLines,
     this.overflow,
-  }) : super(key: key);
+    this.lineHeight, // Initialize line height property
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,22 +61,18 @@ class CustomText extends StatelessWidget {
             ),
           if (svgIconPath != null && svgIconPath!.isNotEmpty)
             SizedBox(
-                width:
-                    iconTextPadding ?? ResponsiveSizeAdapter(context).size(8)),
+              width: iconTextPadding ?? ResponsiveSizeAdapter(context).size(8),
+            ),
           Text(
             text,
-            style: style?.copyWith(
-                  color: color,
-                  fontSize: fontSize,
-                  fontWeight: fontWeight,
-                  letterSpacing: letterSpacing,
-                ) ??
-                AppThemes.bodyText.copyWith(
-                  color: color,
-                  fontSize: fontSize,
-                  fontWeight: fontWeight,
-                  letterSpacing: letterSpacing,
-                ),
+            softWrap: true,
+            style: (style ?? AppThemes.bodyText).copyWith(
+              color: color,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              height: lineHeight, // Set line height here
+            ),
             textAlign: textAlign,
             maxLines: maxLines,
             overflow: overflow,

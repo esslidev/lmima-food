@@ -7,7 +7,6 @@ import '../../../../../core/enums/app_enums.dart';
 import '../../../../../core/util/responsive_screen_adapter.dart';
 import '../../../../../core/util/responsive_size_adapter.dart';
 import '../../../widgets/common/custom_button.dart';
-import '../../../widgets/common/custom_text.dart';
 import '../../../widgets/common/field.dart';
 
 class NavigationBarComponent extends StatefulWidget {
@@ -44,8 +43,8 @@ class _NavigationBarComponentState extends State<NavigationBarComponent> {
             svgIconPath: AppPaths.vectors.homeIcon,
             iconHeight: R.size(20),
             iconColor: AppColors.whiteSolid,
-            backgroundColor: AppColors.light.primaryColor1,
-            borderRadius: R.size(50),
+            backgroundColor: AppColors.greenBianchi,
+            borderRadius: R.size(20),
             padding: EdgeInsets.symmetric(
                 vertical: R.size(10), horizontal: R.size(30)),
             iconPosition: CustomButtonIconPosition.left,

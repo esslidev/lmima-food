@@ -1,5 +1,5 @@
 name: lmima_food_seller_portal
-description: "Designed and implemented a sophisticated Flutter application using BLoC pattern, Beamer routing, and Clean Architecture principles."
+description: 'Designed and implemented a sophisticated Flutter application using BLoC pattern, Beamer routing, and Clean Architecture principles.'
 publish_to: 'none'
 version: 1.0.0
 license: All Rights Reserved
@@ -29,6 +29,7 @@ dependencies:
   logger: ^1.1.0
   retrofit: ^4.0.3
   shared_preferences: ^2.2.2
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:

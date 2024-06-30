@@ -29,6 +29,7 @@ dependencies:
   logger: ^1.1.0
   retrofit: ^4.0.3
   shared_preferences: ^2.2.2
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -109,7 +110,7 @@ flutter:
 
 flutter_launcher_icons:
   adaptive_icon_background: '#ffffff'
-  android: launcher_icon
+  android: true
   image_path: assets/icons/icon.png
   ios: true
   min_sdk: 21
