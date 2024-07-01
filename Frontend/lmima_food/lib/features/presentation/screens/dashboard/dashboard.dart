@@ -30,22 +30,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: ResponsiveScreenAdapter(
+    return ResponsiveScreenAdapter(
       defaultScreen: _buildDesktop(context),
       screenDesktop: _buildDesktop(context),
-    ));
+    );
   }
 
   Widget _buildDesktop(BuildContext context) {
-    return const CustomField(arrangement: FieldArrangement.column, children: [
-      SliderComponent(),
-      TopMenusComponent(),
-      RecomendedMenusComponent(),
-      OffersComponent(),
-      CategoriesProductsComponent(),
-      AboutUsComponent(),
-      NewsLetterTestimonialsComponent(),
-    ]);
+    return const CustomField(
+      arrangement: FieldArrangement.column,
+      children: [
+        SliderComponent(),
+        TopMenusComponent(),
+        RecomendedMenusComponent(),
+        OffersComponent(),
+        CategoriesProductsComponent(),
+        AboutUsComponent(),
+        NewsLetterTestimonialsComponent(),
+      ],
+    );
   }
 }

@@ -34,7 +34,7 @@ class _HeaderTapeComponentState extends State<HeaderTapeComponent> {
         arrangement: FieldArrangement.row,
         width: double.infinity,
         height: R.size(40),
-        backgroundColor: AppColors.light.primaryColor1,
+        backgroundColor: AppColors.light.primaryColor2,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         padding: EdgeInsets.symmetric(horizontal: R.size(100)),

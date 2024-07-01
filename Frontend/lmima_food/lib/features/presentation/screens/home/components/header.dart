@@ -49,7 +49,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
             hintText: 'Search',
             height: R.size(55),
             padding: EdgeInsets.symmetric(horizontal: R.size(20)),
-            borderRadius: R.size(10),
+            borderRadius: R.size(50),
             width: R.size(600),
             dropdownItems: [
               CustomDropdownMenuItem(

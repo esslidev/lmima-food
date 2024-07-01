@@ -22,11 +22,10 @@ class _BlogScreenState extends State<BlogScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: ResponsiveScreenAdapter(
+    return ResponsiveScreenAdapter(
       defaultScreen: _buildDesktop(context),
       screenDesktop: _buildDesktop(context),
-    ));
+    );
   }
 
   Widget _buildDesktop(BuildContext context) {

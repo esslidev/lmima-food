@@ -43,7 +43,7 @@ class _NavigationBarComponentState extends State<NavigationBarComponent> {
             svgIconPath: AppPaths.vectors.homeIcon,
             iconHeight: R.size(20),
             iconColor: AppColors.whiteSolid,
-            backgroundColor: AppColors.greenBianchi,
+            backgroundColor: AppColors.light.primaryColor2,
             borderRadius: R.size(20),
             padding: EdgeInsets.symmetric(
                 vertical: R.size(10), horizontal: R.size(30)),

@@ -43,18 +43,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildDesktop(BuildContext context) {
-    return CustomField(arrangement: FieldArrangement.column, children: [
-      const HeaderTapeComponent(),
-      const HeaderComponent(),
-      const NavigationBarComponent(),
-      Expanded(
-        child: Beamer(
+    return SingleChildScrollView(
+      child: CustomField(arrangement: FieldArrangement.column, children: [
+        const HeaderTapeComponent(),
+        const HeaderComponent(),
+        const NavigationBarComponent(),
+        Beamer(
           routerDelegate: HomeRoutes.homeBeamerDelegate,
           backButtonDispatcher: BeamerBackButtonDispatcher(
               delegate: HomeRoutes.homeBeamerDelegate),
         ),
-      ),
-      const FooterComponent(),
-    ]);
+        const FooterComponent(),
+      ]),
+    );
   }
 }

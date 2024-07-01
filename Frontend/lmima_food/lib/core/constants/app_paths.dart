@@ -26,6 +26,9 @@ class ImagesPaths {
   final String logo = 'assets/images/logo.png';
   final String defaultProfilePicture =
       'assets/images/default-profile-picture.jpg';
+  final String profilePicture = 'assets/images/profile-picture.jpg';
+  final String sliderImage1 = 'assets/images/slider-image1.png';
+  final String sliderImage2 = 'assets/images/slider-image2.png';
 }
 
 class VectorsPaths {
@@ -35,6 +38,7 @@ class VectorsPaths {
   final String cartIcon = 'assets/vectors/cart-icon.svg';
   final String searchIcon = 'assets/vectors/search-icon.svg';
   final String arrowDownIcon = 'assets/vectors/arrow-down-icon.svg';
+  final String longArrowRightIcon = 'assets/vectors/long-arrow-right-icon.svg';
   final String homeIcon = 'assets/vectors/home-icon.svg';
   final String dashboardIcon = 'assets/vectors/dashboard-icon.svg';
   final String settingsIcon = 'assets/vectors/settings-icon.svg';

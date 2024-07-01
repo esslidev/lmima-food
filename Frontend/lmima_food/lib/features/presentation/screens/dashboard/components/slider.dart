@@ -47,29 +47,32 @@ class _SliderComponentState extends State<SliderComponent> {
               height: R.size(600),
               enlargeCenterPage: true,
               autoPlay: true,
-              aspectRatio: 16 / 9,
               autoPlayCurve: Curves.fastOutSlowIn,
               enableInfiniteScroll: true,
-              autoPlayAnimationDuration: const Duration(milliseconds: 2000),
+              autoPlayAnimationDuration: const Duration(milliseconds: 1200),
+              autoPlayInterval: const Duration(milliseconds: 5000),
               viewportFraction: 0.8,
               onPageChanged: (index, reason) {},
             ),
             items: [
               _buildSlider(
-                context: context,
-                title: "Discover Chef Lala Fatime's Delicious Dishes",
-                text:
-                    "Chef Lala Fatime enchants with her skillfully crafted tajine and tanjiya, blending traditional Moroccan flavors with a modern twist.\nHer tajine, prepared with tender beef, simmers in a symphony of aromatic spices, creating a dish that is both comforting and rich in flavor.\nFor those preferring poultry, her tanjiya with succulent chicken offers a delightful alternative, cooked to perfection in a savory broth.\nBeyond savory delights, Chef Lala Fatime also delights patrons with her homemade sweets.\nFrom delicate pastries to decadent confections, each treat is a testament to her culinary artistry, ensuring every bite is a moment of pure indulgence.",
-                primaryColor: AppColors.yellowHoney,
-                secondaryColor: AppColors.greenBianchi,
-              ),
+                  context: context,
+                  title: "Discover Chef Lala Fatime's Delicious Dishes",
+                  text:
+                      "Chef Lala Fatime enchants with her skillfully crafted tajine and tanjiya, blending traditional Moroccan flavors with a modern twist.\nHer tajine, prepared with tender beef, simmers in a symphony of aromatic spices, creating a dish that is both comforting and rich in flavor.\nFor those preferring poultry, her tanjiya with succulent chicken offers a delightful alternative, cooked to perfection in a savory broth.\nBeyond savory delights, Chef Lala Fatime also delights patrons with her homemade sweets.\nFrom delicate pastries to decadent confections, each treat is a testament to her culinary artistry, ensuring every bite is a moment of pure indulgence.",
+                  primaryColor: AppColors.yellowHoney,
+                  secondaryColor: AppColors.light.primaryColor2,
+                  chefProfilePicture: AppPaths.images.profilePicture,
+                  sliderImage: AppPaths.images.sliderImage1),
               _buildSlider(
                   context: context,
                   title: "Discover Chef Lala Fatime's Delicious Dishes",
                   text:
                       "Chef Lala Fatime enchants with her skillfully crafted tajine and tanjiya, blending traditional Moroccan flavors with a modern twist.\nHer tajine, prepared with tender beef, simmers in a symphony of aromatic spices, creating a dish that is both comforting and rich in flavor.\nFor those preferring poultry, her tanjiya with succulent chicken offers a delightful alternative, cooked to perfection in a savory broth.\nBeyond savory delights, Chef Lala Fatime also delights patrons with her homemade sweets.\nFrom delicate pastries to decadent confections, each treat is a testament to her culinary artistry, ensuring every bite is a moment of pure indulgence.",
-                  primaryColor: AppColors.greenBianchi,
-                  secondaryColor: AppColors.yellowHoney),
+                  primaryColor: AppColors.light.primaryColor2,
+                  secondaryColor: AppColors.yellowHoney,
+                  chefProfilePicture: AppPaths.images.profilePicture,
+                  sliderImage: AppPaths.images.sliderImage2),
             ],
           ),
         ]);
@@ -77,19 +80,21 @@ class _SliderComponentState extends State<SliderComponent> {
 
   Widget _buildSlider({
     required BuildContext context,
+    required String chefProfilePicture,
     required String title,
     required String text,
     required Color primaryColor,
     required Color secondaryColor,
+    required String sliderImage,
   }) {
     return CustomField(
       arrangement: FieldArrangement.row,
       width: double.infinity,
       backgroundColor: primaryColor,
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       borderRadius: R.size(10),
       gap: R.size(40),
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       padding: EdgeInsets.symmetric(horizontal: R.size(50)),
       children: [
         CustomField(
@@ -98,6 +103,15 @@ class _SliderComponentState extends State<SliderComponent> {
             crossAxisAlignment: CrossAxisAlignment.start,
             gap: R.size(10),
             children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(R.size(30)),
+                child: Image.asset(
+                  chefProfilePicture,
+                  width: R.size(70),
+                  height: R.size(70),
+                  fit: BoxFit.cover,
+                ),
+              ),
               CustomText(
                 text: title,
                 color: AppColors.whiteSolid,
@@ -113,12 +127,13 @@ class _SliderComponentState extends State<SliderComponent> {
                 lineHeight: 1.5,
               ),
               CustomButton(
-                svgIconPath: AppPaths.vectors.arrowDownIcon,
-                iconHeight: R.size(20),
+                svgIconPath: AppPaths.vectors.longArrowRightIcon,
+                iconTextPadding: R.size(10),
+                iconHeight: R.size(16),
                 iconColor: AppColors.whiteSolid,
                 backgroundColor: secondaryColor,
                 borderRadius: R.size(50),
-                margin: EdgeInsets.only(top: R.size(10), left: R.size(10)),
+                margin: EdgeInsets.only(top: R.size(30), left: R.size(10)),
                 padding: EdgeInsets.symmetric(
                     vertical: R.size(20), horizontal: R.size(80)),
                 iconPosition: CustomButtonIconPosition.right,
@@ -127,7 +142,11 @@ class _SliderComponentState extends State<SliderComponent> {
                 textColor: AppColors.whiteSolid,
                 fontWeight: FontWeight.w400,
               ),
-            ])
+            ]),
+        Image.asset(
+          sliderImage,
+          width: R.size(400),
+        ),
       ],
     );
   }
