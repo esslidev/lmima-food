@@ -29,6 +29,9 @@ class ImagesPaths {
   final String profilePicture = 'assets/images/profile-picture.jpg';
   final String sliderImage1 = 'assets/images/slider-image1.png';
   final String sliderImage2 = 'assets/images/slider-image2.png';
+  final String offerBackground1 = 'assets/images/offer-background1.jpg';
+  final String offerBackground2 = 'assets/images/offer-background2.jpg';
+  final String offerBackground3 = 'assets/images/offer-background3.jpg';
 }
 
 class VectorsPaths {

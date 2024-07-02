@@ -1,7 +1,4 @@
-enum FieldArrangement {
-  row,
-  column,
-}
+enum FieldArrangement { row, column, position }
 
 enum DropdownAlignment { start, center, end }
 

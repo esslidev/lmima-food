@@ -9,7 +9,7 @@ class CustomField extends StatefulWidget {
   final double? borderRadius;
   final double borderWidth;
   final Color? borderColor;
-  final FieldArrangement arrangement; // 'row' or 'column'
+  final FieldArrangement arrangement; // 'row', 'column', or 'position'
   final List<Widget> children;
   final bool isExpanded;
   final MainAxisAlignment mainAxisAlignment;
@@ -55,22 +55,56 @@ class _CustomFieldState extends State<CustomField> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> spacedChildren = [];
-    for (int i = 0; i < widget.children.length; i++) {
-      spacedChildren.add(widget.children[i]);
-      if (i < widget.children.length - 1) {
-        spacedChildren.add(SizedBox(
-          width: widget.arrangement == FieldArrangement.row && !widget.wrap
-              ? widget.gap
-              : 0,
-          height: widget.arrangement == FieldArrangement.column && !widget.wrap
-              ? widget.gap
-              : 0,
-        ));
-      }
+    Widget content;
+
+    switch (widget.arrangement) {
+      case FieldArrangement.row:
+      case FieldArrangement.column:
+        List<Widget> spacedChildren = [];
+        for (int i = 0; i < widget.children.length; i++) {
+          spacedChildren.add(widget.children[i]);
+          if (i < widget.children.length - 1) {
+            spacedChildren.add(SizedBox(
+              width: widget.arrangement == FieldArrangement.row && !widget.wrap
+                  ? widget.gap
+                  : 0,
+              height:
+                  widget.arrangement == FieldArrangement.column && !widget.wrap
+                      ? widget.gap
+                      : 0,
+            ));
+          }
+        }
+
+        content = Flex(
+          direction: widget.arrangement == FieldArrangement.row
+              ? Axis.horizontal
+              : Axis.vertical,
+          mainAxisAlignment: widget.mainAxisAlignment,
+          crossAxisAlignment: widget.crossAxisAlignment,
+          children: spacedChildren,
+        );
+        break;
+      case FieldArrangement.position:
+        content = Stack(
+          children: widget.children.map((child) {
+            // Example of handling positioned widgets by checking key type
+            if (child.key is Key &&
+                (child.key as Key).toString() == 'Positioned') {
+              return child;
+            } else {
+              return Positioned(
+                left: 50.0, // Example left position
+                top: 50.0, // Example top position
+                child: child,
+              );
+            }
+          }).toList(),
+        );
+        break;
     }
 
-    Widget content = Container(
+    return Container(
       width: widget.width,
       height: widget.height,
       margin: widget.margin,
@@ -91,19 +125,8 @@ class _CustomFieldState extends State<CustomField> {
               crossAxisAlignment: widget.crossAxisAlignment.wrapCrossAlignment,
               children: widget.children,
             )
-          : Flex(
-              direction: widget.arrangement == FieldArrangement.row
-                  ? Axis.horizontal
-                  : Axis.vertical,
-              mainAxisAlignment: widget.mainAxisAlignment,
-              crossAxisAlignment: widget.crossAxisAlignment,
-              children: spacedChildren,
-            ),
+          : content,
     );
-
-    return widget.isExpanded
-        ? Expanded(flex: widget.flex, child: content)
-        : content;
   }
 }
 
@@ -138,8 +161,7 @@ extension on CrossAxisAlignment {
       case CrossAxisAlignment.stretch:
         return WrapCrossAlignment.start;
       case CrossAxisAlignment.baseline:
-        return WrapCrossAlignment
-            .start; // Default to start, WrapCrossAlignment doesn't support baseline
+        return WrapCrossAlignment.start; // Default to start
     }
   }
 }
