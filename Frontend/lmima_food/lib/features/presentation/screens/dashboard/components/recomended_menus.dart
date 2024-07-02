@@ -46,14 +46,15 @@ class _RecomendedMenusComponentState extends State<RecomendedMenusComponent> {
         children: [
           CustomText(
             text: 'Recomended menus',
-            fontSize: R.size(40),
-            fontWeight: FontWeight.w500,
+            fontSize: R.size(38),
+            fontWeight: FontWeight.w700,
             color: AppColors.light.primaryColor2,
           ),
           CustomField(
             arrangement: FieldArrangement.row,
             flex: 1,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            wrap: true,
+            gap: R.size(40),
             crossAxisAlignment: CrossAxisAlignment.center,
             padding: EdgeInsets.symmetric(vertical: R.size(20)),
             children: [

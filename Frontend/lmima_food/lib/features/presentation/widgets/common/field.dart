@@ -18,6 +18,7 @@ class CustomField extends StatefulWidget {
   final double? width;
   final double? height;
   final double gap; // New gap parameter
+  final bool wrap; // New wrap parameter
 
   const CustomField({
     Key? key,
@@ -36,6 +37,7 @@ class CustomField extends StatefulWidget {
     this.width,
     this.height,
     this.gap = 0.0, // Default value for gap
+    this.wrap = false, // Default value for wrap
   }) : super(key: key);
 
   @override
@@ -58,9 +60,12 @@ class _CustomFieldState extends State<CustomField> {
       spacedChildren.add(widget.children[i]);
       if (i < widget.children.length - 1) {
         spacedChildren.add(SizedBox(
-          width: widget.arrangement == FieldArrangement.row ? widget.gap : 0,
-          height:
-              widget.arrangement == FieldArrangement.column ? widget.gap : 0,
+          width: widget.arrangement == FieldArrangement.row && !widget.wrap
+              ? widget.gap
+              : 0,
+          height: widget.arrangement == FieldArrangement.column && !widget.wrap
+              ? widget.gap
+              : 0,
         ));
       }
     }
@@ -78,18 +83,63 @@ class _CustomFieldState extends State<CustomField> {
           width: widget.borderWidth,
         ),
       ),
-      child: Flex(
-        direction: widget.arrangement == FieldArrangement.row
-            ? Axis.horizontal
-            : Axis.vertical,
-        mainAxisAlignment: widget.mainAxisAlignment,
-        crossAxisAlignment: widget.crossAxisAlignment,
-        children: spacedChildren,
-      ),
+      child: widget.wrap && widget.arrangement == FieldArrangement.row
+          ? Wrap(
+              spacing: widget.gap,
+              runSpacing: widget.gap,
+              alignment: widget.mainAxisAlignment.wrapAlignment,
+              crossAxisAlignment: widget.crossAxisAlignment.wrapCrossAlignment,
+              children: widget.children,
+            )
+          : Flex(
+              direction: widget.arrangement == FieldArrangement.row
+                  ? Axis.horizontal
+                  : Axis.vertical,
+              mainAxisAlignment: widget.mainAxisAlignment,
+              crossAxisAlignment: widget.crossAxisAlignment,
+              children: spacedChildren,
+            ),
     );
 
     return widget.isExpanded
         ? Expanded(flex: widget.flex, child: content)
         : content;
+  }
+}
+
+extension on MainAxisAlignment {
+  WrapAlignment get wrapAlignment {
+    switch (this) {
+      case MainAxisAlignment.start:
+        return WrapAlignment.start;
+      case MainAxisAlignment.end:
+        return WrapAlignment.end;
+      case MainAxisAlignment.center:
+        return WrapAlignment.center;
+      case MainAxisAlignment.spaceBetween:
+        return WrapAlignment.spaceBetween;
+      case MainAxisAlignment.spaceAround:
+        return WrapAlignment.spaceAround;
+      case MainAxisAlignment.spaceEvenly:
+        return WrapAlignment.spaceEvenly;
+    }
+  }
+}
+
+extension on CrossAxisAlignment {
+  WrapCrossAlignment get wrapCrossAlignment {
+    switch (this) {
+      case CrossAxisAlignment.start:
+        return WrapCrossAlignment.start;
+      case CrossAxisAlignment.end:
+        return WrapCrossAlignment.end;
+      case CrossAxisAlignment.center:
+        return WrapCrossAlignment.center;
+      case CrossAxisAlignment.stretch:
+        return WrapCrossAlignment.start;
+      case CrossAxisAlignment.baseline:
+        return WrapCrossAlignment
+            .start; // Default to start, WrapCrossAlignment doesn't support baseline
+    }
   }
 }

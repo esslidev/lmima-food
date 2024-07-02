@@ -45,17 +45,18 @@ class _TopMenusComponentState extends State<TopMenusComponent> {
         gap: R.size(20),
         children: [
           CustomText(
-            text: 'Top menus',
-            fontSize: R.size(40),
-            fontWeight: FontWeight.w500,
+            text: 'Top Menus',
+            fontSize: R.size(38),
+            fontWeight: FontWeight.w700,
             color: AppColors.light.primaryColor2,
           ),
           CustomField(
             arrangement: FieldArrangement.row,
             flex: 1,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             padding: EdgeInsets.symmetric(vertical: R.size(20)),
+            wrap: true,
+            gap: R.size(40),
             children: [
               MenuItemCard(
                 dishesImagePath: AppPaths.images.sliderImage1,
