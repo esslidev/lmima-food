@@ -4,12 +4,10 @@ import 'package:lmima_food/core/constants/app_colors.dart';
 import 'package:lmima_food/core/constants/app_paths.dart';
 import 'package:lmima_food/features/presentation/widgets/common/custom_text.dart';
 import 'package:lmima_food/features/presentation/widgets/features/menu_item_card.dart';
-import 'package:lmima_food/features/presentation/widgets/features/rating_stars_field.dart';
 
 import '../../../../../core/enums/app_enums.dart';
 import '../../../../../core/util/responsive_screen_adapter.dart';
 import '../../../../../core/util/responsive_size_adapter.dart';
-import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/field.dart';
 
 class TopMenusComponent extends StatefulWidget {
