@@ -13,7 +13,7 @@ class AppColors {
 }
 
 class LightTheme {
-  final Color primaryColor1 = AppColors.greenBianchi;
+  final Color primaryColor1 = AppColors.yellowHoney;
   final Color primaryColor2 = AppColors.grayTahitianPearl;
   final Color primaryColor3 = AppColors.yellowHoney;
   final Color primaryColor4 = AppColors.blueScooter;

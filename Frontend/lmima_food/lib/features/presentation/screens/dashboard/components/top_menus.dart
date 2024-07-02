@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lmima_food/core/constants/app_colors.dart';
 import 'package:lmima_food/core/constants/app_paths.dart';
 import 'package:lmima_food/features/presentation/widgets/common/custom_text.dart';
+import 'package:lmima_food/features/presentation/widgets/features/menu_item_card.dart';
+import 'package:lmima_food/features/presentation/widgets/features/rating_stars_field.dart';
 
 import '../../../../../core/enums/app_enums.dart';
 import '../../../../../core/util/responsive_screen_adapter.dart';
@@ -56,35 +59,50 @@ class _TopMenusComponentState extends State<TopMenusComponent> {
             crossAxisAlignment: CrossAxisAlignment.center,
             padding: EdgeInsets.symmetric(vertical: R.size(20)),
             children: [
-              CustomField(
-                  arrangement: FieldArrangement.column,
-                  borderWidth: R.size(1),
-                  borderColor: AppColors.light.primaryColor2.withOpacity(.2),
-                  borderRadius: R.size(10),
-                  gap: R.size(10),
-                  padding: EdgeInsets.symmetric(
-                      vertical: R.size(30), horizontal: R.size(20)),
-                  children: [
-                    Image.asset(
-                      AppPaths.images.sliderImage1,
-                      width: R.size(260),
-                    ),
-                    CustomField(arrangement: FieldArrangement.row, children: [
-                      Image.asset(
-                        AppPaths.images.sliderImage1,
-                        width: R.size(50),
-                      ),
-                    ]),
-                    CustomField(
-                        arrangement: FieldArrangement.row,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CustomButton(text: 'Hispanic'),
-                          CustomField(
-                              arrangement: FieldArrangement.row, children: [])
-                        ])
-                  ])
+              MenuItemCard(
+                dishesImagePath: AppPaths.images.sliderImage1,
+                profileImagePath: AppPaths.images.profilePicture,
+                title: 'Flavors of Morocco',
+                flavors: const [
+                  'Tagine de Poulet',
+                  'Harira',
+                  'Pastilla au Poulet',
+                ],
+                rating: 3,
+              ),
+              MenuItemCard(
+                dishesImagePath: AppPaths.images.sliderImage1,
+                profileImagePath: AppPaths.images.profilePicture,
+                title: 'Flavors of Morocco',
+                flavors: const [
+                  'Tagine de Poulet',
+                  'Harira',
+                  'Pastilla au Poulet',
+                ],
+                rating: 3,
+              ),
+              MenuItemCard(
+                dishesImagePath: AppPaths.images.sliderImage1,
+                profileImagePath: AppPaths.images.profilePicture,
+                title: 'Flavors of Morocco',
+                flavors: const [
+                  'Tagine de Poulet',
+                  'Harira',
+                  'Pastilla au Poulet',
+                ],
+                rating: 3,
+              ),
+              MenuItemCard(
+                dishesImagePath: AppPaths.images.sliderImage1,
+                profileImagePath: AppPaths.images.profilePicture,
+                title: 'Flavors of Morocco',
+                flavors: const [
+                  'Tagine de Poulet',
+                  'Harira',
+                  'Pastilla au Poulet',
+                ],
+                rating: 3,
+              ),
             ],
           )
         ]);
